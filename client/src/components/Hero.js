@@ -1,9 +1,9 @@
 import landingImg from "../assets/images/landingImg.svg";
 const Hero = () => {
   return (
-    <main className="py-10">
+    <main className="py-10 md:h-[70vh] flex items-center">
       <section className="container mx-auto flex flex-col md:flex-row items-center">
-        <article className="w-full flex items-center flex-col p-2 md:w-6/12 text-center md:text-left md:block">
+        <article className="w-full flex items-center flex-col p-5 md:w-6/12 text-center md:text-left md:block">
           <h1 className="font-extrabold text-3xl md:text-5xl lg:text-6xl p-2 md:p-0 md:pb-5">
             Find verified data from the community autonomously
           </h1>
@@ -16,7 +16,7 @@ const Hero = () => {
             See Reports
           </button>
         </article>
-        <article className="w-full p-2 md:w-6/12">
+        <article className="w-full p-5 md:w-6/12">
           <img src={landingImg} alt="landing" />
         </article>
       </section>
