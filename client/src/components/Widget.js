@@ -1,6 +1,6 @@
 const Widget = ({ data }) => {
   return (
-    <main className="shadow-xl lg:shadow-none md:w-[48%] lg:w-[30%] p-4] ">
+    <main className="shadow-xl lg:shadow-none w-[90%] md:w-[48%] lg:w-[30%] p-4] ">
       <section className="flex justify-center py-4">
         <img src={data.image} alt="widget" />
       </section>
