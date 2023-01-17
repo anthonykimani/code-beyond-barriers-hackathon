@@ -1,6 +1,7 @@
 import Hero from "../components/Hero";
 import HowItWorks from "../components/HowItWorks";
 import MonitorAnalytics from "../components/MonitorAnalytics";
+import OurPromise from "../components/OurPromise";
 
 const Home = () => {
   return (
@@ -8,6 +9,7 @@ const Home = () => {
       <Hero />
       <HowItWorks />
       <MonitorAnalytics />
+      <OurPromise />
     </div>
   );
 };
