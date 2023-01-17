@@ -23,7 +23,7 @@ const Navbar = () => {
           </ul>
         </article>
         <article className="hidden md:block">
-          <button className="flex items-center bg-button text-white rounded-xl font-bold text-md py-2 px-4 w-fi">
+          <button className="flex items-center bg-button text-white rounded-3xl font-bold text-md py-2 px-4 w-fit">
             Connect Wallet
           </button>
         </article>
@@ -37,7 +37,7 @@ const Navbar = () => {
             <div className="w-6 h-0.5 bg-black"></div>
           </div>
           {isExpanded && (
-            <ul className=" absolute top-0 left-0 bg-bgHeavy text-white text-center rounded-b-3xl w-full space-y-10 p-10 z-20">
+            <ul className=" absolute top-0 left-0 bg-button text-white text-center rounded-b-3xl w-full space-y-10 p-10 z-20">
               <li
                 className="cursor-pointer hover:text-textLight"
                 onClick={expand}
