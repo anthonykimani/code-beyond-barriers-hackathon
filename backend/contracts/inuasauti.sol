@@ -23,7 +23,6 @@ interface IERC20Token {
         address indexed spender,
         uint256 value
     );
-
 }
 
 contract InuaSauti {
@@ -35,8 +34,7 @@ contract InuaSauti {
     uint amountToShare = 2;
     bytes32 public normalMember = keccak256("normal");
     bytes32 public verified = keccak256("verified");
-    uint deadline; 
-
+    uint deadline;
 
     enum Status {
         Approved,
@@ -58,7 +56,7 @@ contract InuaSauti {
         uint _messageId;
         string _category;
         Status _status;
-        uint _deadline; 
+        uint _deadline;
     }
 
     struct Votes {
@@ -72,23 +70,26 @@ contract InuaSauti {
     mapping(uint => storeAddressForApproved[]) public _storeAddressForApproved;
     mapping(uint => storeAddressForDecline[]) public _storeAddressForDecline;
     mapping(address => bytes32) public typeOfMemeber;
-    mapping(address => bool) public inuaSautiMembers; 
+    mapping(address => bool) public inuaSautiMembers;
 
     constructor() {
         celoContractAdress = IERC20Token(cUsdTokenAddress);
     }
 
-    event messageTrue(string message, string category); 
+    event messageTrue(string message, string category);
 
-    event messageFalse(string message, string category); 
+    event messageFalse(string message, string category);
 
     modifier checkIfMember() {
-        require(inuaSautiMembers[msg.sender] = true, "Not a member of InuaSauti organisation!"); 
-       _;
+        require(
+            inuaSautiMembers[msg.sender] = true,
+            "Not a member of InuaSauti organisation!"
+        );
+        _;
     }
 
     function joinInuaSautiCommunity() public {
-        inuaSautiMembers[msg.sender] = true; 
+        inuaSautiMembers[msg.sender] = true;
         typeOfMemeber[msg.sender] = normalMember;
     }
 
@@ -97,20 +98,23 @@ contract InuaSauti {
         uint messageId,
         string calldata category
     ) public {
-        deadline = block.timestamp + 7 days; 
+        deadline = block.timestamp + 7 days;
         storeMessages[messageIndex] = storeMessage(
             message,
             messageId,
             category,
-            Status.decline, 
+            Status.decline,
             deadline
         );
         messageIndex++;
     }
 
-    function voteForInformationShared(bool decision, uint _indexId) public checkIfMember {
+    function voteForInformationShared(
+        bool decision,
+        uint _indexId
+    ) public checkIfMember {
         require(
-            storeMessages[_indexId]._deadline > block.timestamp,
+            storeMessages[_indexId]._deadline <= block.timestamp,
             "Deadline for voting on this proposal has already passed!"
         );
         verifyUser(); //check if user if verify
@@ -131,9 +135,9 @@ contract InuaSauti {
     function determineTheSupportOfInformation(uint _indexId) public payable {
         if (votes[_indexId].approveVotes > votes[_indexId].declineVotes) {
             storeMessages[_indexId]._status = Status.Approved;
-            
+
             uint length = _storeAddressForApproved[_indexId].length;
-            // Is line 137 to 146 necessary 
+            // Is line 137 to 146 necessary
             uint amount = msg.value.mul(1).div(length);
             for (uint i; i < length; i++) {
                 requirementForVerification[
@@ -144,7 +148,10 @@ contract InuaSauti {
                     .call{value: amount}("");
                 require(success);
             }
-            emit messageTrue(storeMessages[_indexId]._message, storeMessages[_indexId]._category);
+            emit messageTrue(
+                storeMessages[_indexId]._message,
+                storeMessages[_indexId]._category
+            );
         } else {
             uint length = _storeAddressForDecline[_indexId].length;
 
@@ -154,14 +161,17 @@ contract InuaSauti {
                     _storeAddressForDecline[_indexId][i].declineAddress
                 ]++;
             }
-            emit messageFalse(storeMessages[_indexId]._message, storeMessages[_indexId]._category);
+            emit messageFalse(
+                storeMessages[_indexId]._message,
+                storeMessages[_indexId]._category
+            );
         }
     }
 
     function determineTheTruthOfInformation(
         uint _indexId
     ) public payable returns (storeMessage memory) {
-        //determineTheSupportOfInformation(_indexId);
+       // determineTheSupportOfInformation(_indexId);
         shareIncentive(_indexId);
         require(
             storeMessages[_indexId]._status == Status.Approved,

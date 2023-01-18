@@ -51,7 +51,7 @@ describe("InuaSauti Contract",function(){
         expect(response).to.be.revertedWith("Not a member of InuaSauti organisation!"); 
     }); 
 
-    // Not passing
+    //  "fixed" now passing
     it("Should revert with the reason deadline passed", async function() {
         const signers = await ethers.getSigners(); 
         const owner = await signers[0]; 
