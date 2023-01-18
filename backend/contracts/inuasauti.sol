@@ -87,8 +87,6 @@ contract InuaSauti {
        _;
     }
 
-
-
     function joinInuaSautiCommunity() public {
         inuaSautiMembers[msg.sender] = true; 
         typeOfMemeber[msg.sender] = normalMember;
@@ -130,12 +128,12 @@ contract InuaSauti {
     }
 
     //todo
-    function determineTheSupportOfInformation(uint _indexId) private {
+    function determineTheSupportOfInformation(uint _indexId) public payable {
         if (votes[_indexId].approveVotes > votes[_indexId].declineVotes) {
             storeMessages[_indexId]._status = Status.Approved;
             
-            emit messageTrue(storeMessages[_indexId]._message, storeMessages[_indexId]._category);
             uint length = _storeAddressForApproved[_indexId].length;
+            // Is line 137 to 146 necessary 
             uint amount = msg.value.mul(1).div(length);
             for (uint i; i < length; i++) {
                 requirementForVerification[
@@ -146,8 +144,8 @@ contract InuaSauti {
                     .call{value: amount}("");
                 require(success);
             }
+            emit messageTrue(storeMessages[_indexId]._message, storeMessages[_indexId]._category);
         } else {
-            emit messageFalse(storeMessages[_indexId]._message, storeMessages[_indexId]._category);
             uint length = _storeAddressForDecline[_indexId].length;
 
             storeMessages[_indexId]._status = Status.decline;
@@ -156,13 +154,14 @@ contract InuaSauti {
                     _storeAddressForDecline[_indexId][i].declineAddress
                 ]++;
             }
+            emit messageFalse(storeMessages[_indexId]._message, storeMessages[_indexId]._category);
         }
     }
 
     function determineTheTruthOfInformation(
         uint _indexId
     ) public payable returns (storeMessage memory) {
-        //determineTheSupportOfInformation(_indexId);
+        determineTheSupportOfInformation(_indexId);
         shareIncentive(_indexId);
         require(
             storeMessages[_indexId]._status == Status.Approved,
