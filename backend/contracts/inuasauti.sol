@@ -52,6 +52,7 @@ contract InuaSauti {
     }
 
     uint messageIndex = 0;
+
     struct storeMessage {
         string _message;
         uint _messageId;
@@ -71,12 +72,14 @@ contract InuaSauti {
     mapping(uint => storeAddressForApproved[]) public _storeAddressForApproved;
     mapping(uint => storeAddressForDecline[]) public _storeAddressForDecline;
     mapping(address => bytes32) public typeOfMemeber;
+    mapping(address => bool) public inuaSautiMembers; 
 
     constructor() {
         celoContractAdress = IERC20Token(cUsdTokenAddress);
     }
 
     function joinInuaSautiCommunity() public {
+        inuaSautiMembers[msg.sender] = true; 
         typeOfMemeber[msg.sender] = normalMember;
     }
 
