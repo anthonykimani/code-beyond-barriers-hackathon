@@ -23,6 +23,7 @@ interface IERC20Token {
         address indexed spender,
         uint256 value
     );
+
 }
 
 contract InuaSauti {
@@ -34,8 +35,8 @@ contract InuaSauti {
     uint amountToShare = 2;
     bytes32 public normalMember = keccak256("normal");
     bytes32 public verified = keccak256("verified");
-    uint timeAllowedToVote = 7 days;
-    uint time;
+    uint deadline; 
+
 
     enum Status {
         Approved,
@@ -56,6 +57,7 @@ contract InuaSauti {
         uint _messageId;
         string _category;
         Status _status;
+        uint _deadline; 
     }
 
     struct Votes {
@@ -83,20 +85,21 @@ contract InuaSauti {
         uint messageId,
         string calldata category
     ) public {
+        deadline = block.timestamp + 7 days; 
         storeMessages[messageIndex] = storeMessage(
             message,
             messageId,
             category,
-            Status.decline
+            Status.decline, 
+            deadline
         );
         messageIndex++;
-        time = block.timestamp;
     }
 
     function voteForInformationShared(bool decision, uint _indexId) public {
         require(
-            (block.timestamp - time <= timeAllowedToVote),
-            "can't vote to verify this information timehas already elapsed"
+            storeMessages[_indexId]._deadline > block.timestamp,
+            "Deadline for voting on this proposal has already passed!"
         );
         verifyUser(); //check if user if verify
         if (decision == true) {
