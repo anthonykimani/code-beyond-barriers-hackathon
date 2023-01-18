@@ -78,6 +78,12 @@ contract InuaSauti {
         celoContractAdress = IERC20Token(cUsdTokenAddress);
     }
 
+    modifier checkIfMember() {
+        require(inuaSautiMembers[msg.sender] = true, "Not a member of InuaSauti organisation!"); 
+       _;
+    }
+
+
     function joinInuaSautiCommunity() public {
         inuaSautiMembers[msg.sender] = true; 
         typeOfMemeber[msg.sender] = normalMember;
@@ -99,7 +105,7 @@ contract InuaSauti {
         messageIndex++;
     }
 
-    function voteForInformationShared(bool decision, uint _indexId) public {
+    function voteForInformationShared(bool decision, uint _indexId) public checkIfMember {
         require(
             storeMessages[_indexId]._deadline > block.timestamp,
             "Deadline for voting on this proposal has already passed!"
