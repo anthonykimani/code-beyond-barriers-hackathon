@@ -4,6 +4,7 @@ const {expect} = require("chai");
 
 describe("InuaSauti Contract",function(){
     let inuasautiContract;
+
     beforeEach(async function(){
         //get the contract
         const inuasautiFactory = await ethers.getContractFactory("InuaSauti");
@@ -11,6 +12,7 @@ describe("InuaSauti Contract",function(){
         await inuasautiContract.deployed();
         
     });
+
     it("it should be able post data successful" ,async function(){
         const message = "inuasautiMessage";
         const id = 0;
@@ -19,14 +21,26 @@ describe("InuaSauti Contract",function(){
         
      
         const storedMessage = await inuasautiContract.storeMessages(0);
-      expect(storedMessage._message).to.equal(message);
-      expect(storedMessage._messageId).to.equal(id);
-      expect(storedMessage._category).to.equal(category);
-      expect(storedMessage._status).to.equal(1);
+        expect(storedMessage._message).to.equal(message);
+        expect(storedMessage._messageId).to.equal(id);
+        expect(storedMessage._category).to.equal(category);
+        expect(storedMessage._status).to.equal(1);
+    }); 
 
+    it("Should set value of membership of address to true", async function(){
+        const signers = await ethers.getSigners(); 
+        const owner = await signers[0]; 
+        const address = await owner.getAddress(); 
+        await inuasautiContract.joinInuaSautiCommunity({ from: address });
         
-        
+        const response = await inuasautiContract.inuaSautiMembers(address); 
 
-    })
+        expect(response).to.be.true; 
+    }); 
+
+
+    
+
+
 })
 
