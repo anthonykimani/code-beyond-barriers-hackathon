@@ -233,6 +233,14 @@ contract InuaSauti {
         }
     }
 
+    function getApprovedVotes(uint _index) public view returns (uint) {
+        return votes[_index].approveVotes;
+    }
+
+    function getdeclineVotes(uint _index) public view returns (uint) {
+        return votes[_index].declineVotes;
+    }
+
     receive() external payable {}
 
     fallback() external payable {}
