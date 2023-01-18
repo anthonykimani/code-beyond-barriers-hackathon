@@ -53,6 +53,38 @@ describe("InuaSauti Contract",function(){
         expect(response).to.be.revertedWith("Not a member of InuaSauti organisation!"); 
     }); 
 
+    // Not passing
+    it("Should revert with the reason deadline passed", async function() {
+        const signers = await ethers.getSigners(); 
+        const owner = await signers[0]; 
+        const addressOne = await owner.getAddress(); 
+        
+        const response = await inuasautiContract.voteForInformationShared("true", 0, { from: addressOne }); 
+
+        expect(response).to.be.revertedWith('Deadline for voting on this proposal has already passed!'); 
+    });
+
+    it("Should emmit message true transfer event", async function() {
+        const signers = await ethers.getSigners(); 
+        const owner = await signers[0]; 
+        const addressOne = await owner.getAddress(); 
+
+        const message = "inuasautiMessage";
+        const id = 0;
+        const category = "Technology";
+        await inuasautiContract.getMessagefromUshahidiApi(message,id,category);
+
+        await inuasautiContract.voteForInformationShared("true", 0, { from: addressOne }); 
+        await inuasautiContract.voteForInformationShared("true", 0, { from: addressOne }); 
+        await inuasautiContract.voteForInformationShared("false", 0, { from: addressOne }); 
+
+        const response = await inuasautiContract.determineTheSupportOfInformation(1); 
+
+        expect(response).to.emit(inuasautiContract, "messageTrue")
+        .withArgs(message, category); 
+    })  
+
+
 
 
     
