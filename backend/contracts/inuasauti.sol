@@ -171,7 +171,7 @@ contract InuaSauti {
     function determineTheTruthOfInformation(
         uint _indexId
     ) public payable returns (storeMessage memory) {
-       // determineTheSupportOfInformation(_indexId);
+        // determineTheSupportOfInformation(_indexId);
         shareIncentive(_indexId);
         require(
             storeMessages[_indexId]._status == Status.Approved,
@@ -218,6 +218,18 @@ contract InuaSauti {
                     _storeAddressForApproved[_indexId][i].confirmAddress
                 ]++;
             }
+        }
+    }
+
+    //return all information in the dao
+    function getAllInformation()
+        public
+        view
+        returns (storeMessage[] memory props)
+    {
+        props = new storeMessage[](messageIndex);
+        for (uint256 index = 0; index < messageIndex; index++) {
+            props[index] = storeMessages[index];
         }
     }
 
