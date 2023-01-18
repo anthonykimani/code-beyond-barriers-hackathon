@@ -161,7 +161,7 @@ contract InuaSauti {
     function determineTheTruthOfInformation(
         uint _indexId
     ) public payable returns (storeMessage memory) {
-        determineTheSupportOfInformation(_indexId);
+        //determineTheSupportOfInformation(_indexId);
         shareIncentive(_indexId);
         require(
             storeMessages[_indexId]._status == Status.Approved,
