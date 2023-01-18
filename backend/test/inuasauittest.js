@@ -1,7 +1,5 @@
 const {ethers} = require("hardhat");
 const {expect} = require("chai");
-
-
 describe("InuaSauti Contract",function(){
     let inuasautiContract;
     beforeEach(async function(){
@@ -27,6 +25,24 @@ describe("InuaSauti Contract",function(){
         
         
 
+    });
+    // it("it should be able to send cusd", async function(){
+    //     const cUsdTokenAddress ="0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1";
+    //     const allowedAmount = 5000000000000000000;//utils.parseEther("5");
+    //    const app = await  cUsdTokenAddress.approve(inuasautiContract.address,allowedAmount);
+    //    expect(app).to.equal(true);
+
+    // });
+    it("should increase the number of approve votes", async function(){
+        const decision = true;
+        const index = 0;
+        await inuasautiContract.voteForInformationShared(decision,index);
+        const votes = await inuasautiContract.votes(0);
+        expect(votes.approveVotes).to.equal(1);
+        expect(votes.declineVotes).to.equal(0);
+        
+
     })
-})
+    
+});
 
