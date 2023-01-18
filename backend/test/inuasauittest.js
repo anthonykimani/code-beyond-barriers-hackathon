@@ -37,6 +37,22 @@ describe("InuaSauti Contract",function(){
 
         expect(response).to.be.true; 
     }); 
+    
+    it("Should revert the transaction with the reason not a member", async function() {
+        const signers = await ethers.getSigners(); 
+        const owner = await signers[0]; 
+        const addressOne = await owner.getAddress(); 
+
+        const message = "inuasautiMessage";
+        const id = 0;
+        const category = "Technology";
+        await inuasautiContract.getMessagefromUshahidiApi(message,id,category);
+
+        const response = await inuasautiContract.voteForInformationShared("true", 0, { from: addressOne }); 
+
+        expect(response).to.be.revertedWith("Not a member of InuaSauti organisation!"); 
+    }); 
+
 
 
     
