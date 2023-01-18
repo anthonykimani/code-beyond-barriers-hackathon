@@ -78,10 +78,15 @@ contract InuaSauti {
         celoContractAdress = IERC20Token(cUsdTokenAddress);
     }
 
+    event messageTrue(string message, string category); 
+
+    event messageFalse(string message, string category); 
+
     modifier checkIfMember() {
         require(inuaSautiMembers[msg.sender] = true, "Not a member of InuaSauti organisation!"); 
        _;
     }
+
 
 
     function joinInuaSautiCommunity() public {
@@ -128,7 +133,8 @@ contract InuaSauti {
     function determineTheSupportOfInformation(uint _indexId) private {
         if (votes[_indexId].approveVotes > votes[_indexId].declineVotes) {
             storeMessages[_indexId]._status = Status.Approved;
-
+            
+            emit messageTrue(storeMessages[_indexId]._message, storeMessages[_indexId]._category);
             uint length = _storeAddressForApproved[_indexId].length;
             uint amount = msg.value.mul(1).div(length);
             for (uint i; i < length; i++) {
@@ -141,6 +147,7 @@ contract InuaSauti {
                 require(success);
             }
         } else {
+            emit messageFalse(storeMessages[_indexId]._message, storeMessages[_indexId]._category);
             uint length = _storeAddressForDecline[_indexId].length;
 
             storeMessages[_indexId]._status = Status.decline;
