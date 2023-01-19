@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Post from "../components/Post";
+import { AppContext } from "../contexts/AppContext";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
+  const { user, contract, sayHello } = useContext(AppContext);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -14,6 +16,9 @@ const Posts = () => {
     };
     fetchPosts();
   }, []);
+
+console.log(user);
+sayHello();
 
   return (
     <main className="bg-section min-h-screen">

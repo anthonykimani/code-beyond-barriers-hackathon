@@ -1,3 +1,4 @@
+import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import HowItWorks from "../components/HowItWorks";
 import MonitorAnalytics from "../components/MonitorAnalytics";
@@ -10,6 +11,7 @@ const Home = () => {
       <HowItWorks />
       <MonitorAnalytics />
       <OurPromise />
+      <Footer />
     </div>
   );
 };
