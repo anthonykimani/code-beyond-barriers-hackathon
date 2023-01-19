@@ -1,12 +1,22 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
 import NoImage from "../assets/images/noImage.png";
+import { AppContext } from "../contexts/AppContext";
 
 const SinglePost = () => {
   const { id } = useParams();
   const [post, setPost] = useState({});
+  //Todo
+  const {contract,kit,userAccount,notification} = useContext(AppContext);
+  const approveorDeclineInformation = async (decision,id)=>{
+    try{
+      await contract.methods.voteForInformationShared(decision,id).send({from:kit.defaultAccount});
+    }catch(error){
+      notification(error);
+    }
+  }
 
   useEffect(() => {
     const getPost = async () => {
@@ -92,12 +102,13 @@ const SinglePost = () => {
           <div className="flex flex-col md:flex-row bg-section ">
             <div className="w-full md:w-5/12 p-5 flex  justify-between">
               <div>
-                <button className="bg-button text-white font-medium px-5 py-2 w-fit">
+                {/* to change the id and pass dynamic */}
+                <button onClick={()=>approveorDeclineInformation(true,0)} className="bg-button text-white font-medium px-5 py-2 w-fit">
                   Vote for
                 </button>
               </div>
               <div>
-                <button className=" bg-orange-400 text-white font-medium px-3 py-2 w-fit">
+                <button    onClick={()=>approveorDeclineInformation(false,0)} className=" bg-orange-400 text-white font-medium px-3 py-2 w-fit">
                   Vote against
                 </button>
               </div>
