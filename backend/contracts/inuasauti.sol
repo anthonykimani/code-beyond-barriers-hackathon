@@ -27,6 +27,7 @@ interface IERC20Token {
 
 contract InuaSauti {
     IERC20Token celoContractAdress;
+    uint fixedAmount = 1 ether;
 
     address internal cUsdTokenAddress =
         0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
@@ -35,6 +36,7 @@ contract InuaSauti {
     bytes32 public normalMember = keccak256("normal");
     bytes32 public verified = keccak256("verified");
     uint deadline;
+    address payable public ushahidi;
 
     enum Status {
         Approved,
@@ -245,6 +247,24 @@ contract InuaSauti {
         uint _index
     ) public view returns (storeMessage memory) {
         return storeMessages[_index];
+    }
+
+    //set ushahidi address
+    function setUshahidiAddress(address payable Ushahidi) public {
+        ushahidi = Ushahidi;
+    }
+
+    //contribute to the ushahidi
+    function contributeToUshadi(uint amountToContribute) external payable {
+        celoContractAdress.transferFrom(
+            msg.sender,
+            ushahidi,
+            amountToContribute
+        );
+    }
+
+    function getFixedAmount() public view returns (uint) {
+        return fixedAmount;
     }
 
     receive() external payable {}
