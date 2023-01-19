@@ -23,6 +23,7 @@ interface IERC20Token {
         address indexed spender,
         uint256 value
     );
+
 }
 
 contract InuaSauti {
@@ -34,8 +35,8 @@ contract InuaSauti {
     uint amountToShare = 2;
     bytes32 public normalMember = keccak256("normal");
     bytes32 public verified = keccak256("verified");
-    uint timeAllowedToVote = 7 days;
-    uint time;
+    uint deadline; 
+
 
     enum Status {
         Approved,
@@ -51,11 +52,13 @@ contract InuaSauti {
     }
 
     uint messageIndex = 0;
+
     struct storeMessage {
         string _message;
         uint _messageId;
         string _category;
         Status _status;
+        uint _deadline; 
     }
 
     struct Votes {
@@ -69,12 +72,23 @@ contract InuaSauti {
     mapping(uint => storeAddressForApproved[]) public _storeAddressForApproved;
     mapping(uint => storeAddressForDecline[]) public _storeAddressForDecline;
     mapping(address => bytes32) public typeOfMemeber;
+    mapping(address => bool) public inuaSautiMembers; 
 
     constructor() {
         celoContractAdress = IERC20Token(cUsdTokenAddress);
     }
 
+    event messageTrue(string message, string category); 
+
+    event messageFalse(string message, string category); 
+
+    modifier checkIfMember() {
+        require(inuaSautiMembers[msg.sender] = true, "Not a member of InuaSauti organisation!"); 
+       _;
+    }
+
     function joinInuaSautiCommunity() public {
+        inuaSautiMembers[msg.sender] = true; 
         typeOfMemeber[msg.sender] = normalMember;
     }
 
@@ -83,20 +97,21 @@ contract InuaSauti {
         uint messageId,
         string calldata category
     ) public {
+        deadline = block.timestamp + 7 days; 
         storeMessages[messageIndex] = storeMessage(
             message,
             messageId,
             category,
-            Status.decline
+            Status.decline, 
+            deadline
         );
         messageIndex++;
-        time = block.timestamp;
     }
 
-    function voteForInformationShared(bool decision, uint _indexId) public {
+    function voteForInformationShared(bool decision, uint _indexId) public checkIfMember {
         require(
-            (block.timestamp - time <= timeAllowedToVote),
-            "can't vote to verify this information timehas already elapsed"
+            storeMessages[_indexId]._deadline > block.timestamp,
+            "Deadline for voting on this proposal has already passed!"
         );
         verifyUser(); //check if user if verify
         if (decision == true) {
@@ -113,11 +128,12 @@ contract InuaSauti {
     }
 
     //todo
-    function determineTheSupportOfInformation(uint _indexId) private {
+    function determineTheSupportOfInformation(uint _indexId) public payable {
         if (votes[_indexId].approveVotes > votes[_indexId].declineVotes) {
             storeMessages[_indexId]._status = Status.Approved;
-
+            
             uint length = _storeAddressForApproved[_indexId].length;
+            // Is line 137 to 146 necessary 
             uint amount = msg.value.mul(1).div(length);
             for (uint i; i < length; i++) {
                 requirementForVerification[
@@ -128,6 +144,7 @@ contract InuaSauti {
                     .call{value: amount}("");
                 require(success);
             }
+            emit messageTrue(storeMessages[_indexId]._message, storeMessages[_indexId]._category);
         } else {
             uint length = _storeAddressForDecline[_indexId].length;
 
@@ -137,13 +154,14 @@ contract InuaSauti {
                     _storeAddressForDecline[_indexId][i].declineAddress
                 ]++;
             }
+            emit messageFalse(storeMessages[_indexId]._message, storeMessages[_indexId]._category);
         }
     }
 
     function determineTheTruthOfInformation(
         uint _indexId
     ) public payable returns (storeMessage memory) {
-        //determineTheSupportOfInformation(_indexId);
+        determineTheSupportOfInformation(_indexId);
         shareIncentive(_indexId);
         require(
             storeMessages[_indexId]._status == Status.Approved,
