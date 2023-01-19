@@ -1,37 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { newKitFromWeb3 } from "@celo/contractkit";
-import Web3 from "web3";
-let kit;
-let contract;
-const Navbar = ({ onShow }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  //connect to celo wallet
-  const connectWallet  =  async function (){
-   
-    if (window.celo) {
-      
-      try {
-        await window.celo.enable()
-       
-  
-        const web3 = new Web3(window.celo);
-        kit = newKitFromWeb3(web3);
-  
-        const accounts = await kit.web3.eth.getAccounts();
-        kit.defaultAccount = accounts[0];
-        setUserAccount(kit.defaultAccount);
-        contract = new kit.web3.eth.Contract(TumainDaoAbi,TumainiDaoContractAddress);
-        
-  
-      } catch (error) {
-        notification(`⚠️ ${error}.`)
-      }
-    } else {
-      notification("⚠️ Please install the CeloExtensionWallet.")
-    }
-  }
 
+import { AppContext } from "../contexts/AppContext";
+
+const Navbar = ({ onShow }) => {
+  // const cUSDContract = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1";
+  // const inuasautiContract ="0xF17153bedBe9D979485c16BaC1adDc5d60b84622";
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+const {userAccount, contract, connectWallet} = useContext(AppContext);
   const expand = () => {
     setIsExpanded((isExpanded) => !isExpanded);
   };
@@ -58,9 +35,10 @@ const Navbar = ({ onShow }) => {
           </ul>
         </article>
         <article className="hidden md:flex gap-4 ">
-          <button className="flex items-center bg-button text-white rounded-3xl font-bold text-md py-2 px-4 w-fit">
-            Connect Wallet
+          <button  onClick={()=>connectWallet()} className="flex items-center bg-button text-white rounded-3xl font-bold text-md py-2 px-4 w-fit">
+            {userAccount != null?"Connected":"Connect Wallet"}
           </button>
+          <h2>{userAccount}</h2>
           <button
             onClick={onShow}
             className="flex items-center bg-[#213139] text-white rounded-3xl font-bold text-md py-2 px-4 w-fit"
