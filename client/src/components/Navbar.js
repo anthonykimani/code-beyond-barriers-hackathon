@@ -50,26 +50,32 @@ const Navbar = ({ onShow }) => {
             <div className="w-6 h-0.5 bg-black"></div>
           </div>
           {isExpanded && (
-            <ul className=" absolute top-0 left-0 bg-button text-white text-center rounded-b-3xl w-full space-y-10 p-10 z-20">
-              <li
-                className="cursor-pointer hover:text-textLight"
-                onClick={expand}
-              >
-                <a href={`#home`}>Home</a>
-              </li>
-              <li
-                className="cursor-pointer hover:text-textLight"
-                onClick={expand}
-              >
-                <a href={`#about`}>Platform</a>
-              </li>
-              <li
-                className="cursor-pointer hover:text-textLight"
-                onClick={expand}
-              >
-                <a href={`#skills`}>About</a>
-              </li>
-            </ul>
+            <div>
+              <ul className=" absolute top-0 left-0 bg-button text-white text-center rounded-b-1xl w-full space-y-10 p-10 z-20">
+                <div className="flex justify-start" onClick={expand}>
+                  {" "}
+                  <i className="bx bx-x bx-md text-white"></i>
+                </div>
+                <li
+                  className="cursor-pointer hover:text-textLight"
+                  onClick={expand}
+                >
+                  <a href={`#home`}>Home</a>
+                </li>
+                <li
+                  className="cursor-pointer hover:text-textLight"
+                  onClick={expand}
+                >
+                  <a href={`#about`}>Platform</a>
+                </li>
+                <li
+                  className="cursor-pointer hover:text-textLight"
+                  onClick={expand}
+                >
+                  <a href={`#skills`}>About</a>
+                </li>
+              </ul>
+            </div>
           )}
         </article>
       </section>

@@ -1,8 +1,8 @@
 import landingImg from "../assets/images/landingImg.svg";
 const Hero = () => {
   return (
-    <main className="py-10 md:h-[70vh] flex items-center">
-      <section className="container mx-auto flex flex-col md:flex-row items-center">
+    <main className="py-10 md:h-[100%] flex items-center">
+      <section className="container mx-auto flex flex-col justify-between md:flex-row items-center">
         <article className="w-full flex items-center flex-col p-5 md:w-6/12 text-center md:text-left md:block">
           <h1 className="font-extrabold text-3xl md:text-5xl lg:text-6xl p-2 md:p-0 md:pb-5">
             Find verified data from the community autonomously
