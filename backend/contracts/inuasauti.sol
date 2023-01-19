@@ -81,6 +81,11 @@ contract InuaSauti {
     event messageTrue(string message, string category);
 
     event messageFalse(string message, string category);
+    event PaymentTransfered(
+        address indexed sender,
+        address indexed _ushahidi,
+        uint256 amount
+    );
 
     modifier checkIfMember() {
         require(
@@ -261,6 +266,7 @@ contract InuaSauti {
             ushahidi,
             amountToContribute
         );
+        emit PaymentTransfered(msg.sender, ushahidi, amountToContribute);
     }
 
     function getFixedAmount() public view returns (uint) {
