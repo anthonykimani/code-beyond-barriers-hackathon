@@ -1,6 +1,6 @@
 import NoImage from "../assets/images/noImage.png";
 
-const Data = () => {
+const Post = () => {
   return (
     <main className="shadow-xl h-[25h] rounded-md bg-white">
       <section className="flex items-center justify-between p-2">
@@ -39,4 +39,4 @@ const Data = () => {
   );
 };
 
-export default Data;
+export default Post;
