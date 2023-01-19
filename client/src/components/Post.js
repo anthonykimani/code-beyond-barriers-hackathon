@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import NoImage from "../assets/images/noImage.png";
 
 const Post = () => {
@@ -11,9 +12,11 @@ const Post = () => {
           <div className="font-bold text-gray-600 text-sm">via Twitter</div>
         </article>
         <article className="w-4/12 flex justify-end">
-          <span className="px-3 py-1 w-fit bg-button rounded-md text-green-100 font-medium">
-            View
-          </span>
+          <Link to={`/posts/1`}>
+            <span className="px-3 py-1 w-fit bg-button rounded-md text-green-100 font-medium">
+              View
+            </span>
+          </Link>
         </article>
       </section>
       <section className="flex flex-col md:flex-row p-2">
