@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ onShow }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const expand = () => {
@@ -18,13 +19,22 @@ const Navbar = () => {
         <article className="hidden md:block">
           <ul className="flex items-center md:gap-4 gap-10  font-bold text-md cursor-pointer">
             <li className="text-text">Home</li>
-            <li className="hover:text-textHeavy">Platform</li>
+            <NavLink to="/posts">
+              <li className="hover:text-textHeavy">Platform</li>
+            </NavLink>
+
             <li className="hover:text-textHeavy">About</li>
           </ul>
         </article>
-        <article className="hidden md:block">
+        <article className="hidden md:flex gap-4 ">
           <button className="flex items-center bg-button text-white rounded-3xl font-bold text-md py-2 px-4 w-fit">
             Connect Wallet
+          </button>
+          <button
+            onClick={onShow}
+            className="flex items-center bg-[#213139] text-white rounded-3xl font-bold text-md py-2 px-4 w-fit"
+          >
+            Donate
           </button>
         </article>
         <article className="md:hidden">
