@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-
+import { newKitFromWeb3 } from "@celo/contractkit";
+import Web3 from "web3";
+let kit;
+let contract;
 const Navbar = ({ onShow }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
