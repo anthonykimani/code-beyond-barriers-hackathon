@@ -18,12 +18,15 @@ const Navbar = ({ onShow }) => {
         </article>
         <article className="hidden md:block">
           <ul className="flex items-center md:gap-4 gap-10  font-bold text-md cursor-pointer">
-            <li className="text-text">Home</li>
+            <NavLink to="/">
+              <li className="text-text">Home</li>
+            </NavLink>
             <NavLink to="/posts">
               <li className="hover:text-textHeavy">Platform</li>
             </NavLink>
-
-            <li className="hover:text-textHeavy">About</li>
+            <NavLink to="/about">
+              <li className="hover:text-textHeavy">About</li>
+            </NavLink>
           </ul>
         </article>
         <article className="hidden md:flex gap-4 ">
