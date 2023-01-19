@@ -5,7 +5,7 @@ const OurPromise = () => {
     <main className="md:h-[70vh] lg:h-[60vh] flex items-center">
       <section className="container mx-auto">
         <article className="text-center">
-          <h1 className="font-bold text-3xl lg:text-4xl xl:text-5xl p-5">
+          <h1 className="font-bold text-3xl lg:text-4xl  p-5">
             Our Promise To You
           </h1>
         </article>
