@@ -1,5 +1,5 @@
 const {ethers} = require("hardhat");
-
+//InuaSautiContract 0xF17153bedBe9D979485c16BaC1adDc5d60b84622
 async function main(){
   //get the contract
   const inuasautiContract =  await ethers.getContractFactory("InuaSauti");
