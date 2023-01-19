@@ -6,6 +6,31 @@ let kit;
 let contract;
 const Navbar = ({ onShow }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  //connect to celo wallet
+  const connectWallet  =  async function (){
+   
+    if (window.celo) {
+      
+      try {
+        await window.celo.enable()
+       
+  
+        const web3 = new Web3(window.celo);
+        kit = newKitFromWeb3(web3);
+  
+        const accounts = await kit.web3.eth.getAccounts();
+        kit.defaultAccount = accounts[0];
+        setUserAccount(kit.defaultAccount);
+        contract = new kit.web3.eth.Contract(TumainDaoAbi,TumainiDaoContractAddress);
+        
+  
+      } catch (error) {
+        notification(`⚠️ ${error}.`)
+      }
+    } else {
+      notification("⚠️ Please install the CeloExtensionWallet.")
+    }
+  }
 
   const expand = () => {
     setIsExpanded((isExpanded) => !isExpanded);
