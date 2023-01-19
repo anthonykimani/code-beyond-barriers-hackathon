@@ -241,6 +241,12 @@ contract InuaSauti {
         return votes[_index].declineVotes;
     }
 
+    function getInformationForOneMessage(
+        uint _index
+    ) public view returns (storeMessage memory) {
+        return storeMessages[_index];
+    }
+
     receive() external payable {}
 
     fallback() external payable {}
