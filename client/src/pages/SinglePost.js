@@ -1,41 +1,67 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import  erc20  from "../components/contractJsonFiles/ierc20.json";
+import erc20 from "../components/contractJsonFiles/ierc20.json";
 import NoImage from "../assets/images/noImage.png";
 import { AppContext } from "../contexts/AppContext";
 
 const BigNumber = require("bignumber.js");
 
 const SinglePost = () => {
-  const {userAccount, contract,cUSDContract , connectWallet,kit,notification,inuasautiContract} = useContext(AppContext);
+  const {
+    userAccount,
+    contract,
+    cUSDContract,
+    connectWallet,
+    kit,
+    notification,
+    inuasautiContract,
+  } = useContext(AppContext);
   const { id } = useParams();
   const [post, setPost] = useState({});
-  const confirmInformation = async()=>{
-    const balance =   new BigNumber(2).times(new BigNumber(10).pow(18));
-    const cusdContract = new  kit.web3.eth.Contract(erc20,cUSDContract);
-   
-    await cusdContract.methods.approve(inuasautiContract,balance.toString()).send({from : kit.defaultAccount});
-    try{
-      await contract.methods.determineTheTruthOfInformation(0).send({from : kit.defaultAccount});
-    }catch(error){
-      alert("approve infor",error);
-    }
+  const [singlePost, setsinglePost] = useState({});
 
-  }
+  useEffect(() => {
+    const fetchSinglePost = async () => {
+      try {
+        const data = await contract.methods
+          .getInformationForOneMessage(id)
+          .call({ from: kit.defaultAccount });
+        setsinglePost(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSinglePost();
+  }, [id]);
+
+  const confirmInformation = async () => {
+    const balance = new BigNumber(2).times(new BigNumber(10).pow(18));
+    const cusdContract = new kit.web3.eth.Contract(erc20, cUSDContract);
+
+    await cusdContract.methods
+      .approve(inuasautiContract, balance.toString())
+      .send({ from: kit.defaultAccount });
+    try {
+      await contract.methods
+        .determineTheTruthOfInformation(0)
+        .send({ from: kit.defaultAccount });
+    } catch (error) {
+      alert("approve infor", error);
+    }
+  };
 
   //Todo
- 
-  const approveorDeclineInformation = async (decision,id)=>{
-    
 
-    try{
-      await contract.methods.voteForInformationShared(decision,id).send({from:kit.defaultAccount});
-    }catch(error){
-      
+  const approveorDeclineInformation = async (decision, id) => {
+    try {
+      await contract.methods
+        .voteForInformationShared(decision, id)
+        .send({ from: kit.defaultAccount });
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     const getPost = async () => {
@@ -60,26 +86,23 @@ const SinglePost = () => {
           </article>
           <article className="w-full md:w-7/12 p-2 md:p-5">
             <h1 className="text-xl md:text-3xl font-bold text-gray-400 text-center md:text-left  md:pb-5">
-              {post.title}
+              {singlePost._title}
             </h1>
             <article className="w-full md:w-8/12 py-3 flex justify-between">
               <div>
-                <span
-                  style={{ color: `${post.color}` }}
-                  className="text-sm font-medium  rounded-3xl py-1 px-2 w-fit"
-                >
-                  {post.status}
+                <span className="text-sm font-medium  rounded-3xl py-1 px-2 w-fit">
+                  {singlePost._status}
                 </span>
               </div>
               <div>
                 <span className="text-sm font-medium">Date</span>
               </div>
               <div className="font-medium text-gray-500 text-sm">
-                via {post.source}
+                via {singlePost._source}
               </div>
             </article>
             <p className=" text-gray-700 py-5 text-center md:text-left text-base md:w-[90%]">
-              {post.content}
+              {singlePost._message}
             </p>
             <hr />
             <article className="py-5">
@@ -122,13 +145,19 @@ const SinglePost = () => {
             <div className="w-full md:w-5/12 p-5 flex  justify-between">
               <div>
                 {/* to change the id and pass dynamic */}
-                
-                <button onClick={()=>approveorDeclineInformation(true,1)} className="bg-button text-white font-medium px-5 py-2 w-fit">
+
+                <button
+                  onClick={() => approveorDeclineInformation(true, 1)}
+                  className="bg-button text-white font-medium px-5 py-2 w-fit"
+                >
                   Vote for
                 </button>
               </div>
               <div>
-                <button    onClick={()=>approveorDeclineInformation(false,0)} className=" bg-red-500 text-white font-medium px-3 py-2 w-fit">
+                <button
+                  onClick={() => approveorDeclineInformation(false, 0)}
+                  className=" bg-red-500 text-white font-medium px-3 py-2 w-fit"
+                >
                   Vote against
                 </button>
               </div>
@@ -139,7 +168,6 @@ const SinglePost = () => {
                   Leave comment(Optional)
                 </h3>
                 <textarea
-                
                   className="bg-white outline-none p-2"
                   type="text"
                   rows={4}
@@ -148,7 +176,6 @@ const SinglePost = () => {
                   <button className="bg-button text-white font-medium px-3 py-2 w-fit">
                     Comment
                   </button>
-                 
                 </div>
               </form>
             </div>

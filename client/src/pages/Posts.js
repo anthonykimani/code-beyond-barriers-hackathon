@@ -1,70 +1,55 @@
-
-import { useContext, useEffect, useState,useCallback } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 
 import axios from "axios";
 import Post from "../components/Post";
 import { AppContext } from "../contexts/AppContext";
 
-
-
 const Posts = () => {
   const [posts, setPosts] = useState([]);
 
-  const [info,setInfo] = useState([]);
+  const [info, setInfo] = useState([]);
 
-  const {contract,kit,useAccount,notification,connectWallet} = useContext(AppContext);
-  let message ="ronaldo in doha";
+  const { contract, kit, useAccount, notification, connectWallet } =
+    useContext(AppContext);
+  let message = "ronaldo in doha";
   let source = "twitter";
-  let title ="The goat Debate";
+  let title = "The goat Debate";
   let category = "sports";
-  let postDate ="11/2/2023";
+  let postDate = "11/2/2023";
   //TODO
-  const writePost = async()=>{
-    const params=[
-      title,
-      source,
-      postDate,
-      message,
-      category
-
-    ]
-    try{
-      await  contract.methods.getMessagefromUshahidiApi(...params).send({from : kit.defaultAccount});
-     notification("was post successful");
-     alert(useAccount);
-    }catch(error){
-      notification("the error is",error);
-      console.log("post error",error)
-      notification("userAccount is",useAccount)
+  const writePost = async () => {
+    const params = [title, source, postDate, message, category];
+    try {
+      await contract.methods
+        .getMessagefromUshahidiApi(...params)
+        .send({ from: kit.defaultAccount });
+      notification("was post successful");
+      alert(useAccount);
+    } catch (error) {
+      notification("the error is", error);
+      console.log("post error", error);
+      notification("userAccount is", useAccount);
     }
-    
-    
-  }
+  };
   //Todo get all information
-  const getInformationToApprove =  useCallback(  async ()=>{
-    try{
-     
-      let allinfo=[]
-      
-        const infor = await contract.methods.getAllInformation().call({from : kit.defaultAccount})
-       
-       infor.forEach((element) => {
-        allinfo.push(element)
-        
-       });
-       setInfo(allinfo);
-       
+  const getInformationToApprove = useCallback(async () => {
+    try {
+      let allinfo = [];
 
-       
-       
-      }catch(error){
-      console.log(error)
+      const infor = await contract?.methods
+        .getAllInformation()
+        .call({ from: kit.defaultAccount });
+
+      infor?.forEach((element) => {
+        allinfo.push(element);
+      });
+      setInfo(allinfo);
+    } catch (error) {
+      console.log(error);
     }
-  },[contract])
-  
-  
-  // console.log(info);
+  }, [contract]);
 
+  console.log(info);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -74,24 +59,20 @@ const Posts = () => {
       setPosts(data);
     };
     fetchPosts();
-    getInformationToApprove();
     connectWallet();
+    getInformationToApprove();
   }, []);
 
   return (
     <main className="bg-section min-h-screen py-10">
       <section className="container mx-auto">
-        <article>Dashboard <button onClick={()=>writePost()}>Post DAta</button></article>
+        <article>
+          Dashboard <button onClick={() => writePost()}>Post DAta</button>
+        </article>
 
         <article className="flex flex-col gap-5 p-2">
-          
-          {
-          
-          posts?.results?.map((post) => (
-            
-            <Post key={post.id} post={post} />
-            
-
+          {info?.map((post) => (
+            <Post key={post._messageId} post={post} />
           ))}
         </article>
       </section>
