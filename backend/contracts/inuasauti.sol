@@ -63,7 +63,6 @@ contract InuaSauti {
         string _postDate;
         string _message;
         uint _messageId;
-        string _category;
         Status _status;
         uint _deadline;
     }
@@ -125,8 +124,7 @@ contract InuaSauti {
         string calldata title,
         string calldata source,
         string calldata postDate,
-        string calldata message,
-        string calldata category
+        string calldata message
     ) public {
         deadline = block.timestamp + 7 days;
         uint messageId = messageIndex;
@@ -137,7 +135,6 @@ contract InuaSauti {
             postDate,
             message,
             messageId,
-            category,
             Status.decline,
             deadline
         );
@@ -169,41 +166,41 @@ contract InuaSauti {
     }
 
     //todo
-    function determineTheSupportOfInformation(uint _indexId) public payable {
-        if (votes[_indexId].approveVotes > votes[_indexId].declineVotes) {
-            storeMessages[_indexId]._status = Status.Approved;
+    // function determineTheSupportOfInformation(uint _indexId) public payable {
+    //     if (votes[_indexId].approveVotes > votes[_indexId].declineVotes) {
+    //         storeMessages[_indexId]._status = Status.Approved;
 
-            uint length = _storeAddressForApproved[_indexId].length;
-            // Is line 137 to 146 necessary
-            uint amount = msg.value.mul(1).div(length);
-            for (uint i; i < length; i++) {
-                requirementForVerification[
-                    _storeAddressForApproved[_indexId][i].confirmAddress
-                ]++;
-                (bool success, ) = _storeAddressForApproved[_indexId][i]
-                    .confirmAddress
-                    .call{value: amount}("");
-                require(success);
-            }
-            emit messageTrue(
-                storeMessages[_indexId]._message,
-                storeMessages[_indexId]._category
-            );
-        } else {
-            uint length = _storeAddressForDecline[_indexId].length;
+    //         uint length = _storeAddressForApproved[_indexId].length;
+    //         // Is line 137 to 146 necessary
+    //         uint amount = msg.value.mul(1).div(length);
+    //         for (uint i; i < length; i++) {
+    //             requirementForVerification[
+    //                 _storeAddressForApproved[_indexId][i].confirmAddress
+    //             ]++;
+    //             (bool success, ) = _storeAddressForApproved[_indexId][i]
+    //                 .confirmAddress
+    //                 .call{value: amount}("");
+    //             require(success);
+    //         }
+    //         emit messageTrue(
+    //             storeMessages[_indexId]._message,
+    //             storeMessages[_indexId]._category
+    //         );
+    //     } else {
+    //         uint length = _storeAddressForDecline[_indexId].length;
 
-            storeMessages[_indexId]._status = Status.decline;
-            for (uint i; i < length; i++) {
-                requirementForVerification[
-                    _storeAddressForDecline[_indexId][i].declineAddress
-                ]++;
-            }
-            emit messageFalse(
-                storeMessages[_indexId]._message,
-                storeMessages[_indexId]._category
-            );
-        }
-    }
+    //         storeMessages[_indexId]._status = Status.decline;
+    //         for (uint i; i < length; i++) {
+    //             requirementForVerification[
+    //                 _storeAddressForDecline[_indexId][i].declineAddress
+    //             ]++;
+    //         }
+    //         emit messageFalse(
+    //             storeMessages[_indexId]._message,
+    //             storeMessages[_indexId]._category
+    //         );
+    //     }
+    // }
 
     function determineTheTruthOfInformation(
         uint _indexId
