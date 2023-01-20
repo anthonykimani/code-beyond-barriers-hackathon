@@ -57,6 +57,7 @@ contract InuaSauti {
     uint messageIndex = 0;
 
     struct storeMessage {
+        string _imageUrl;
         string _title;
         string _source;
         string _postDate;
@@ -79,7 +80,7 @@ contract InuaSauti {
     mapping(uint => storeAddressForDecline[]) public _storeAddressForDecline;
     mapping(address => bytes32) public typeOfMemeber;
     mapping(address => bool) public inuaSautiMembers;
-    mapping(address => bool) public voted;
+    mapping(address => mapping(uint => bool)) public voted;
 
     constructor() {
         celoContractAdress = IERC20Token(cUsdTokenAddress);
@@ -120,6 +121,7 @@ contract InuaSauti {
     }
 
     function getMessagefromUshahidiApi(
+        string calldata imageurl,
         string calldata title,
         string calldata source,
         string calldata postDate,
@@ -129,6 +131,7 @@ contract InuaSauti {
         deadline = block.timestamp + 7 days;
         uint messageId = messageIndex;
         storeMessages[messageIndex] = storeMessage(
+            imageurl,
             title,
             source,
             postDate,
@@ -149,7 +152,7 @@ contract InuaSauti {
             block.timestamp <= storeMessages[_indexId]._deadline,
             "Deadline for voting on this proposal has already passed!"
         );
-        require(voted[msg.sender] == false, "you have already voted");
+        require(voted[msg.sender][_indexId] == false, "you have already voted");
         verifyUser(); //check if user if verify
         if (decision == true) {
             votes[_indexId].approveVotes++;
@@ -162,7 +165,7 @@ contract InuaSauti {
                 storeAddressForDecline(msg.sender)
             );
         }
-        voted[msg.sender] = true;
+        voted[msg.sender][_indexId] = true;
     }
 
     //todo
