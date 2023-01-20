@@ -11,6 +11,7 @@ const Posts = () => {
   const [posts, setPosts] = useState([]);
 
   const [info,setInfo] = useState([]);
+
   const {contract,kit,useAccount,notification,connectWallet} = useContext(AppContext);
   let message ="ronaldo in doha";
   let source = "twitter";
@@ -54,13 +55,15 @@ const Posts = () => {
        setInfo(allinfo);
        
 
-     
-     
-    }catch(error){
+       
+       
+      }catch(error){
       console.log(error)
     }
   },[contract])
   
+  
+  // console.log(info);
 
 
   useEffect(() => {

@@ -19,15 +19,10 @@ let kit;
 let contract;
 function App() {
  
-const cUSDContract = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1";
+  const cUSDContract = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1";
   const inuasautiContract ="0x90A27C6E24e694f4D012A91C82E64b6B8371D4Cf";
   const [userAccount,setUserAccount] = useState(null);
   const [showPortal, setShowPortal] = useState(false);
-  const [user, setUser] = useState("Anto");
-  let contract;
-  const sayHello = () => {
-    console.log("hello");
-  };
 
   const onShowPortal = () => {
     setShowPortal(true);

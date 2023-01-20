@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { utils } from "ethers";
-import  erc20  from "../components/contractJsonFiles/ierc20.json";
+import erc20 from "../components/contractJsonFiles/ierc20.json";
 
 import { AppContext } from "../contexts/AppContext";
 const BigNumber = require("bignumber.js");
@@ -12,43 +12,56 @@ const Navbar = ({ onShow }) => {
   //Todo
   const ushahidiAdd = "0xC877733b142f44AF7e2FA8d29A7065e56FF851fa";
   const [isExpanded, setIsExpanded] = useState(false);
-  const {userAccount, contract,cUSDContract , connectWallet,kit,notification,inuasautiContract} = useContext(AppContext);
- //todo
- const joinCommunity = async ()=>{
-  try{
-    await contract.methods.joinInuaSautiCommunity().send({from: kit.defaultAccount});
-  }catch(error){
-    alert("join error", error);
-  }
- }
+  const {
+    userAccount,
+    contract,
+    cUSDContract,
+    connectWallet,
+    kit,
+    notification,
+    inuasautiContract,
+  } = useContext(AppContext);
+  //todo
+  const joinCommunity = async () => {
+    try {
+      await contract.methods
+        .joinInuaSautiCommunity()
+        .send({ from: kit.defaultAccount });
+    } catch (error) {
+      alert("join error", error);
+    }
+  };
   //setUshahidi address
-  const setUshahidiAddress = async ()=>{
-    try{
-      await contract.methods.setUshahidiAddress(ushahidiAdd).send({from : kit.defaultAccount});
-    }catch(error){
+  const setUshahidiAddress = async () => {
+    try {
+      await contract.methods
+        .setUshahidiAddress(ushahidiAdd)
+        .send({ from: kit.defaultAccount });
+    } catch (error) {
       notification(error);
     }
-  }
-  
-  //donate to ushahidi
-  const donateToUshahidi = async ()=>{
-    //amount will be passed from the function
-    const balance =   new BigNumber(2).times(new BigNumber(10).pow(18));
-    
-    
-   
-    const cusdContract = new  kit.web3.eth.Contract(erc20,cUSDContract);
-   
-    await cusdContract.methods.approve(inuasautiContract,balance.toString()).send({from : kit.defaultAccount});
-    
-    try{
-      await contract.methods. contributeToUshadi(balance.toString()).send({from : kit.defaultAccount});
-      alert("done");
-    }catch(error){
-      notification(error);
-    }
-  }
+  };
 
+  //donate to ushahidi
+  const donateToUshahidi = async () => {
+    //amount will be passed from the function
+    const balance = new BigNumber(2).times(new BigNumber(10).pow(18));
+
+    const cusdContract = new kit.web3.eth.Contract(erc20, cUSDContract);
+
+    await cusdContract.methods
+      .approve(inuasautiContract, balance.toString())
+      .send({ from: kit.defaultAccount });
+
+    try {
+      await contract.methods
+        .contributeToUshadi(balance.toString())
+        .send({ from: kit.defaultAccount });
+      alert("done");
+    } catch (error) {
+      notification(error);
+    }
+  };
 
   const expand = () => {
     setIsExpanded((isExpanded) => !isExpanded);
@@ -68,7 +81,7 @@ const Navbar = ({ onShow }) => {
               <li className="text-text">Home</li>
             </NavLink>
             <NavLink to="/posts">
-              <li className="hover:text-textHeavy">Posts</li>
+              <li className="hover:text-textHeavy">Reports</li>
             </NavLink>
             <NavLink to="/about">
               <li className="hover:text-textHeavy">About</li>
@@ -76,17 +89,28 @@ const Navbar = ({ onShow }) => {
           </ul>
         </article>
         <article className="hidden md:flex gap-4 ">
-          <button  onClick={()=>connectWallet()} className="flex items-center bg-button text-white rounded-3xl font-bold text-md py-2 px-4 w-fit">
-            {userAccount != null?"Connected":"Connect Wallet"}
-          </button>
-          <h2>{userAccount}</h2>
+          {userAccount ? (
+            <div className="flex items-center bg-button text-white rounded-3xl font-bold text-md py-2 px-4 w-fit">
+              Connected to {userAccount.substring(0, 8)}...
+            </div>
+          ) : (
+            <button
+              onClick={() => connectWallet()}
+              className="flex items-center bg-red-400 text-white rounded-3xl font-bold text-md py-2 px-4 w-fit"
+            >
+              Connect Wallet
+            </button>
+          )}
+
           <button
             onClick={onShow}
             className="flex items-center bg-[#213139] text-white rounded-3xl font-bold text-md py-2 px-4 w-fit"
           >
             Donate
           </button>
-          <button className="bg-blue-400" onClick={()=>joinCommunity()}>join</button>
+          <button className="flex items-center bg-button text-white rounded-3xl font-bold text-md py-2 px-4 w-fit" onClick={() => joinCommunity()}>
+            Join
+          </button>
         </article>
         <article className="md:hidden">
           <div
@@ -114,7 +138,7 @@ const Navbar = ({ onShow }) => {
                   className="cursor-pointer hover:text-textLight"
                   onClick={expand}
                 >
-                  <a href={`#about`}>Posts</a>
+                  <a href={`#about`}>Reports</a>
                 </li>
                 <li
                   className="cursor-pointer hover:text-textLight"

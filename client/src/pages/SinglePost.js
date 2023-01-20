@@ -23,6 +23,7 @@ const SinglePost = () => {
     }
 
   }
+
   //Todo
  
   const approveorDeclineInformation = async (decision,id)=>{
@@ -47,7 +48,7 @@ const SinglePost = () => {
   }, [id]);
 
   return (
-    <main className="min-h-screen bg-section">
+    <main className="min-h-screen bg-section py-20">
       <section className="container mx-auto bg-white">
         <section className="flex flex-col-reverse md:flex-row">
           <article className="w-full md:w-5/12 p-2 md:p-5">
@@ -127,7 +128,7 @@ const SinglePost = () => {
                 </button>
               </div>
               <div>
-                <button    onClick={()=>approveorDeclineInformation(false,0)} className=" bg-orange-400 text-white font-medium px-3 py-2 w-fit">
+                <button    onClick={()=>approveorDeclineInformation(false,0)} className=" bg-red-500 text-white font-medium px-3 py-2 w-fit">
                   Vote against
                 </button>
               </div>
