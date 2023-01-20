@@ -147,7 +147,7 @@ const SinglePost = () => {
                 {/* to change the id and pass dynamic */}
 
                 <button
-                  onClick={() => approveorDeclineInformation(true, 1)}
+                  onClick={() => approveorDeclineInformation(true, 0)}
                   className="bg-button text-white font-medium px-5 py-2 w-fit"
                 >
                   Vote for

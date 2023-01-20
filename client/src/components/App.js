@@ -20,7 +20,7 @@ let contract;
 function App() {
  
   const cUSDContract = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1";
-  const inuasautiContract ="0xbb6a0263bf26D3629F0ad3Fc27657fC9ee072386";
+  const inuasautiContract ="0x605E297c3319839e5340AC6192708D8a6a196c76";
   const [userAccount,setUserAccount] = useState(null);
   const [showPortal, setShowPortal] = useState(false);
 

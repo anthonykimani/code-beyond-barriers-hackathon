@@ -11,14 +11,15 @@ const Posts = () => {
 
   const { contract, kit, useAccount, notification, connectWallet } =
     useContext(AppContext);
+    let imageUrl = "https://www.shutterstock.com/image-photo/bitcoin-crypto-currency-mining-concept-1400514362";
   let message = "ronaldo in doha";
   let source = "twitter";
   let title = "The goat Debate";
-  let category = "sports";
+  
   let postDate = "11/2/2023";
   //TODO
   const writePost = async () => {
-    const params = [title, source, postDate, message, category];
+    const params = [imageUrl,title, source, postDate, message];
     try {
       await contract.methods
         .getMessagefromUshahidiApi(...params)
