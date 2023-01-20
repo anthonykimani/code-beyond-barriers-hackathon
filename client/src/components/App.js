@@ -6,24 +6,23 @@ import Home from "../pages/Home";
 import Posts from "../pages/Posts";
 import SinglePost from "../pages/SinglePost";
 import DonationPortal from "./DonationPortal";
+import Footer from "./Footer";
 import Navbar from "./Navbar";
 
 function App() {
   const [showPortal, setShowPortal] = useState(false);
-  const [ user, setUser ] = useState("Anto");
-  let contract ;
-  const sayHello = ()=>{
+  const [user, setUser] = useState("Anto");
+  let contract;
+  const sayHello = () => {
     console.log("hello");
-  }
-
-
+  };
 
   const onShowPortal = () => {
     setShowPortal(true);
   };
 
   return (
-    <AppContext.Provider value={{user, contract, sayHello}}>
+    <AppContext.Provider value={{ user, contract, sayHello }}>
       <Router>
         <Navbar onShow={() => onShowPortal()} />
         <Routes>
@@ -35,6 +34,7 @@ function App() {
           showPortal={showPortal}
           onClose={() => setShowPortal(false)}
         />
+        <Footer />
       </Router>
     </AppContext.Provider>
   );

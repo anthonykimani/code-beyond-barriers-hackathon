@@ -1,7 +1,6 @@
-import search from "../assets/images/search.svg";
 import vector from "../assets/images/vector.svg";
 import diagram from "../assets/images/diagram.svg";
-import metrics from "../assets/images/metrics.svg"
+import metrics from "../assets/images/metrics.svg";
 
 export const widgetSource = [
   {

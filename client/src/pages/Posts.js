@@ -17,11 +17,11 @@ const Posts = () => {
     fetchPosts();
   }, []);
 
-console.log(user);
-sayHello();
+  console.log(user);
+  sayHello();
 
   return (
-    <main className="bg-section min-h-screen">
+    <main className="bg-section min-h-screen py-10">
       <section className="container mx-auto">
         <article>Dashboard</article>
         <article className="flex flex-col gap-5 p-2">
