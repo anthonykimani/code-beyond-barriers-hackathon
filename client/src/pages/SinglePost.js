@@ -121,6 +121,7 @@ const SinglePost = () => {
             <div className="w-full md:w-5/12 p-5 flex  justify-between">
               <div>
                 {/* to change the id and pass dynamic */}
+                
                 <button onClick={()=>approveorDeclineInformation(true,1)} className="bg-button text-white font-medium px-5 py-2 w-fit">
                   Vote for
                 </button>
@@ -146,7 +147,7 @@ const SinglePost = () => {
                   <button className="bg-button text-white font-medium px-3 py-2 w-fit">
                     Comment
                   </button>
-                  <button onClick={()=>confirmInformation()}>confirm</button>
+                 
                 </div>
               </form>
             </div>
