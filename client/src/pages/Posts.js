@@ -6,39 +6,19 @@ import { AppContext } from "../contexts/AppContext";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
-
   const [info, setInfo] = useState([]);
+  const [title, setTitle] = useState(null);
+  const [postDate, setPostDate] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [source, setSource] = useState(null);
+  const [message, setMessage] = useState(null);
 
   const { contract, kit, useAccount, notification, connectWallet } =
     useContext(AppContext);
-  let imageUrl;
-  let message;
-  let source;
-  let title;
-  let postDate;
-  let status;
-  let category;
-
-  posts?.results?.forEach((post) => {
-    message = post.content;
-    source = post.source;
-    title = post.title;
-    postDate = post.created;
-    status = post.status;
-    category = post.type;
-  });
 
   //TODO
   const writePost = async () => {
-    const params = [
-      imageUrl,
-      title,
-      source,
-      postDate,
-      message,
-      status,
-      category,
-    ];
+    const params = [category, title, source, postDate, message, category];
     try {
       await contract.methods
         .getMessagefromUshahidiApi(...params)
@@ -82,6 +62,23 @@ const Posts = () => {
     connectWallet();
     getInformationToApprove();
   }, []);
+  
+  // console.log(posts.results[0].title);
+
+
+    let postedData = posts?.results?.[0];
+
+    useEffect(()=>{
+      setMessage(postedData.content);
+      setSource(postedData.source);
+      setTitle(postedData.title);
+      setPostDate(postedData.post_date);
+      setCategory(postedData.category);
+    },[posts])
+    
+    console.log(postedData);
+    // writePost();
+
 
   return (
     <main className="bg-section min-h-screen pb-10">
