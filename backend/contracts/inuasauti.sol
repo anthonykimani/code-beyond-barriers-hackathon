@@ -54,6 +54,9 @@ contract InuaSauti {
     uint messageIndex = 0;
 
     struct storeMessage {
+        string _title;
+        string _source;
+        string _postDate;
         string _message;
         uint _messageId;
         string _category;
@@ -101,12 +104,18 @@ contract InuaSauti {
     }
 
     function getMessagefromUshahidiApi(
+        string calldata title,
+        string calldata source,
+        string calldata postDate,
         string calldata message,
-        uint messageId,
         string calldata category
     ) public {
         deadline = block.timestamp + 7 days;
+        uint messageId = messageIndex;
         storeMessages[messageIndex] = storeMessage(
+            title,
+            source,
+            postDate,
             message,
             messageId,
             category,
@@ -119,9 +128,9 @@ contract InuaSauti {
     function voteForInformationShared(
         bool decision,
         uint _indexId
-    ) public checkIfMember {
+    ) public checkIfMember() {
         require(
-            storeMessages[_indexId]._deadline <= block.timestamp,
+            block.timestamp <= storeMessages[_indexId]._deadline,
             "Deadline for voting on this proposal has already passed!"
         );
         verifyUser(); //check if user if verify

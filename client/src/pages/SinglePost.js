@@ -1,12 +1,40 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-
+import  erc20  from "../components/contractJsonFiles/ierc20.json";
 import NoImage from "../assets/images/noImage.png";
+import { AppContext } from "../contexts/AppContext";
+
+const BigNumber = require("bignumber.js");
 
 const SinglePost = () => {
+  const {userAccount, contract,cUSDContract , connectWallet,kit,notification,inuasautiContract} = useContext(AppContext);
   const { id } = useParams();
   const [post, setPost] = useState({});
+  const confirmInformation = async()=>{
+    const balance =   new BigNumber(2).times(new BigNumber(10).pow(18));
+    const cusdContract = new  kit.web3.eth.Contract(erc20,cUSDContract);
+   
+    await cusdContract.methods.approve(inuasautiContract,balance.toString()).send({from : kit.defaultAccount});
+    try{
+      await contract.methods.determineTheTruthOfInformation(0).send({from : kit.defaultAccount});
+    }catch(error){
+      alert("approve infor",error);
+    }
+
+  }
+  //Todo
+ 
+  const approveorDeclineInformation = async (decision,id)=>{
+    
+
+    try{
+      await contract.methods.voteForInformationShared(decision,id).send({from:kit.defaultAccount});
+    }catch(error){
+      
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     const getPost = async () => {
@@ -92,12 +120,14 @@ const SinglePost = () => {
           <div className="flex flex-col md:flex-row bg-section ">
             <div className="w-full md:w-5/12 p-5 flex  justify-between">
               <div>
-                <button className="bg-button text-white font-medium px-5 py-2 w-fit">
+                {/* to change the id and pass dynamic */}
+                
+                <button onClick={()=>approveorDeclineInformation(true,1)} className="bg-button text-white font-medium px-5 py-2 w-fit">
                   Vote for
                 </button>
               </div>
               <div>
-                <button className=" bg-orange-400 text-white font-medium px-3 py-2 w-fit">
+                <button    onClick={()=>approveorDeclineInformation(false,0)} className=" bg-orange-400 text-white font-medium px-3 py-2 w-fit">
                   Vote against
                 </button>
               </div>
@@ -108,6 +138,7 @@ const SinglePost = () => {
                   Leave comment(Optional)
                 </h3>
                 <textarea
+                
                   className="bg-white outline-none p-2"
                   type="text"
                   rows={4}
@@ -116,6 +147,7 @@ const SinglePost = () => {
                   <button className="bg-button text-white font-medium px-3 py-2 w-fit">
                     Comment
                   </button>
+                 
                 </div>
               </form>
             </div>

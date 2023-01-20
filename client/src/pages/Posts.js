@@ -1,11 +1,67 @@
-import { useContext, useEffect, useState } from "react";
+
+import { useContext, useEffect, useState,useCallback } from "react";
+
 import axios from "axios";
 import Post from "../components/Post";
 import { AppContext } from "../contexts/AppContext";
 
+
+
 const Posts = () => {
   const [posts, setPosts] = useState([]);
-  const { user, contract, sayHello } = useContext(AppContext);
+
+  const [info,setInfo] = useState([]);
+  const {contract,kit,useAccount,notification,connectWallet} = useContext(AppContext);
+  let message ="ronaldo in doha";
+  let source = "twitter";
+  let title ="The goat Debate";
+  let category = "sports";
+  let postDate ="11/2/2023";
+  //TODO
+  const writePost = async()=>{
+    const params=[
+      title,
+      source,
+      postDate,
+      message,
+      category
+
+    ]
+    try{
+      await  contract.methods.getMessagefromUshahidiApi(...params).send({from : kit.defaultAccount});
+     notification("was post successful");
+     alert(useAccount);
+    }catch(error){
+      notification("the error is",error);
+      console.log("post error",error)
+      notification("userAccount is",useAccount)
+    }
+    
+    
+  }
+  //Todo get all information
+  const getInformationToApprove =  useCallback(  async ()=>{
+    try{
+     
+      let allinfo=[]
+      
+        const infor = await contract.methods.getAllInformation().call({from : kit.defaultAccount})
+       
+       infor.forEach((element) => {
+        allinfo.push(element)
+        
+       });
+       setInfo(allinfo);
+       
+
+     
+     
+    }catch(error){
+      console.log(error)
+    }
+  },[contract])
+  
+
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -15,18 +71,24 @@ const Posts = () => {
       setPosts(data);
     };
     fetchPosts();
+    getInformationToApprove();
+    connectWallet();
   }, []);
-
-  console.log(user);
-  sayHello();
 
   return (
     <main className="bg-section min-h-screen py-10">
       <section className="container mx-auto">
-        <article>Dashboard</article>
+        <article>Dashboard <button onClick={()=>writePost()}>Post DAta</button></article>
+
         <article className="flex flex-col gap-5 p-2">
-          {posts?.results?.map((post) => (
+          
+          {
+          
+          posts?.results?.map((post) => (
+            
             <Post key={post.id} post={post} />
+            
+
           ))}
         </article>
       </section>
