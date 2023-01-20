@@ -1,16 +1,24 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-
+import  erc20  from "../components/contractJsonFiles/ierc20.json";
 import NoImage from "../assets/images/noImage.png";
 import { AppContext } from "../contexts/AppContext";
 
+const BigNumber = require("bignumber.js");
+
 const SinglePost = () => {
+  const {userAccount, contract,cUSDContract , connectWallet,kit,notification,inuasautiContract} = useContext(AppContext);
   const { id } = useParams();
   const [post, setPost] = useState({});
   //Todo
-  const {contract,kit,userAccount,notification} = useContext(AppContext);
+ 
   const approveorDeclineInformation = async (decision,id)=>{
+    const balance =   new BigNumber(2).times(new BigNumber(10).pow(18));
+    const cusdContract = new  kit.web3.eth.Contract(erc20,cUSDContract);
+   
+    await cusdContract.methods.approve(inuasautiContract,balance.toString()).send({from : kit.defaultAccount});
+
     try{
       await contract.methods.voteForInformationShared(decision,id).send({from:kit.defaultAccount});
     }catch(error){

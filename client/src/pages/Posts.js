@@ -56,7 +56,7 @@ const Posts = () => {
       console.log(error)
     }
   },[contract])
-  console.log("ron")
+  
 
   useEffect(() => {
     const fetchPosts = async () => {
