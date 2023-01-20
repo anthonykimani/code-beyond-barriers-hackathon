@@ -130,7 +130,7 @@ contract InuaSauti {
         uint _indexId
     ) public checkIfMember() {
         require(
-            storeMessages[_indexId]._deadline <= block.timestamp,
+            block.timestamp <= storeMessages[_indexId]._deadline,
             "Deadline for voting on this proposal has already passed!"
         );
         verifyUser(); //check if user if verify
