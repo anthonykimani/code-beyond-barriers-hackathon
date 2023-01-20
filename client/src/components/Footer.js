@@ -1,52 +1,40 @@
 const Footer = () => {
+  const year = new Date().getFullYear();
+
   return (
-    <div className="bg-gray-800 text-white">
+    <div className="bg-button text-white">
       <footer className="p-6 ">
         <div className="container grid grid-cols-2 mx-auto gap-x-3 gap-y-8 sm:grid-cols-3 md:grid-cols-4">
           <div className="flex flex-col space-y-4">
-            <h2 className="font-medium">Services</h2>
+            <h2 className="font-semibold">Services</h2>
             <div className="flex flex-col space-y-2 text-sm ">
-              <a rel="noopener noreferrer" href="#">
-                Services
-              </a>
+              <li>Services</li>
             </div>
           </div>
           <div className="flex flex-col space-y-4">
-            <h2 className="font-medium">Pricing</h2>
+            <h2 className="font-semibold">Pricing</h2>
             <div className="flex flex-col space-y-2 text-sm ">
-              <a rel="noopener noreferrer" href="#">
-                Pricing
-              </a>
+              <li>Pricing</li>
             </div>
           </div>
           <div className="flex flex-col space-y-4">
-            <h2 className="font-medium">Contact</h2>
+            <h2 className="font-semibold">Contact</h2>
             <div className="flex flex-col space-y-2 text-sm ">
-              <a rel="noopener noreferrer" href="#">
-                Contact
-              </a>
+              <li>Contact</li>
             </div>
           </div>
           <div className="flex flex-col space-y-4">
-            <h2 className="font-medium">Community</h2>
+            <h2 className="font-semibold">Community</h2>
             <div className="flex flex-col space-y-2 text-sm ">
-              <a rel="noopener noreferrer" href="#">
-                GitHub
-              </a>
-              <a rel="noopener noreferrer" href="#">
-                Discord
-              </a>
-              <a rel="noopener noreferrer" href="#">
-                Twitter
-              </a>
-              <a rel="noopener noreferrer" href="#">
-                YouTube
-              </a>
+              <li>GitHub</li>
+              <li>Discord</li>
+              <li>Twitter</li>
+              <li>YouTube</li>
             </div>
           </div>
         </div>
         <div className="flex items-center justify-center px-6 pt-12 text-sm">
-          <span className="">© Copyright 2023. All Rights Reserved.</span>
+          <span className="">© Copyright {year}. All Rights Reserved.</span>
         </div>
       </footer>
     </div>
