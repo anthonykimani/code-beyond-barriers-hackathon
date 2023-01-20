@@ -12,7 +12,7 @@ const Posts = () => {
   const { contract, kit, useAccount, notification, connectWallet } =
     useContext(AppContext);
   let imageUrl =
-    "https://www.shutterstock.com/image-photo/bitcoin-crypto-currency-mining-concept-1400514362";
+    "https://ichef.bbci.co.uk/onesport/cps/800/cpsprodpb/516D/production/_128354802_on-mes-index.jpg";
   let message = "ronaldo in doha";
   let source = "twitter";
   let title = "The goat Debate";
@@ -50,8 +50,6 @@ const Posts = () => {
       console.log(error);
     }
   }, [contract]);
-
-  console.log(info);
 
   useEffect(() => {
     const fetchPosts = async () => {

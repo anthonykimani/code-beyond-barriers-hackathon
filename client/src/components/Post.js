@@ -2,14 +2,30 @@ import { Link } from "react-router-dom";
 import moment from "moment/moment";
 
 import NoImage from "../assets/images/noImage.png";
+import { useContext } from "react";
+import { AppContext } from "../contexts/AppContext";
 
 const Post = ({ post }) => {
+  const {
+    userAccount,
+    contract,
+    cUSDContract,
+    connectWallet,
+    kit,
+    notification,
+    inuasautiContract,
+  } = useContext(AppContext);
+
+  const Reward = async () => {};
+
   return (
     <main className="shadow-xl h-[25h] rounded-md bg-white">
       <section className="flex items-center justify-between p-2">
         <article className="w-8/12 flex justify-between">
           <div>
-            <span className="text-sm font-medium">{post._status}</span>
+            <span className="text-sm font-medium">
+              {post._status === 1 ? "Approved" : "Declined"}
+            </span>
           </div>
           <div>
             <span className="text-sm font-medium">
@@ -20,12 +36,15 @@ const Post = ({ post }) => {
             via {post._source}
           </div>
         </article>
-        <article className="w-4/12 flex justify-end">
+        <article className="w-4/12 flex items-center gap-4 justify-end">
           <Link to={`/posts/${post._messageId}`}>
             <span className="px-3 py-1 w-fit bg-button rounded-md text-green-100 font-medium">
               View
             </span>
           </Link>
+          <span className="px-3 py-1 w-fit cursor-pointer bg-[#213139] rounded-md text-white font-medium">
+            Reward
+          </span>
         </article>
       </section>
       <section className="flex flex-col md:flex-row p-2">

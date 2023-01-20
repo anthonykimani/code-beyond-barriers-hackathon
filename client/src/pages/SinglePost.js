@@ -50,7 +50,7 @@ const SinglePost = () => {
       alert("approve infor", error);
     }
   };
-
+  console.log(singlePost);
   //Todo
 
   const approveorDeclineInformation = async (decision, id) => {
@@ -80,7 +80,7 @@ const SinglePost = () => {
           <article className="w-full md:w-5/12 p-2 md:p-5">
             <img
               className="w-full h-[30vh] md:h-[70vh] object-cover "
-              src={NoImage}
+              src={singlePost._imageUrl ? singlePost._imageUrl : NoImage}
               alt="data"
             />
           </article>
@@ -90,8 +90,13 @@ const SinglePost = () => {
             </h1>
             <article className="w-full md:w-8/12 py-3 flex justify-between">
               <div>
-                <span className="text-sm font-medium  rounded-3xl py-1 px-2 w-fit">
-                  {singlePost._status}
+                <span
+                  style={{
+                    color: `${singlePost._status == 1 ? `green` : `red`}`,
+                  }}
+                  className="text-[14px] font-semibold   rounded-3xl py-1 px-2 w-fit"
+                >
+                  {singlePost._status == 1 ? "Approved" : "Declined"}
                 </span>
               </div>
               <div>
