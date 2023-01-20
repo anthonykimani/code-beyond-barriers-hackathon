@@ -17,17 +17,7 @@ const SinglePost = () => {
     };
     getPost();
   }, [id]);
-  // console.log(post.values);
-  // for(const key in post.values){
-  //   console.log(post.values[key])
-  // }
 
-  const newArray = [];
-
-  for(const key in post.values){
-    newArray.push({...post.values[key], id: key})
-  }
-  console.log(newArray)
   return (
     <main className="min-h-screen bg-section">
       <section className="container mx-auto bg-white">
