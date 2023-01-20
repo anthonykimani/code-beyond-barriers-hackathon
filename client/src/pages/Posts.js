@@ -9,13 +9,17 @@ const Posts = () => {
   const [info,setInfo] = useState([]);
   const {contract,kit,useAccount,notification,connectWallet} = useContext(AppContext);
   let message ="ronaldo in doha";
-  let id= 1;
+  let source = "twitter";
+  let title ="The goat Debate";
   let category = "sports";
+  let postDate ="11/2/2023";
   //TODO
   const writePost = async()=>{
     const params=[
+      title,
+      source,
+      postDate,
       message,
-      id,
       category
 
     ]
@@ -25,6 +29,7 @@ const Posts = () => {
      alert(useAccount);
     }catch(error){
       notification("the error is",error);
+      console.log("post error",error)
       notification("userAccount is",useAccount)
     }
     
