@@ -1,19 +1,66 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { createPortal } from "react-dom";
 import Celo from "../assets/images/celo.png";
+import erc20 from "../components/contractJsonFiles/ierc20.json";
+
+import { AppContext } from "../contexts/AppContext";
+const BigNumber = require("bignumber.js");
 
 
 const DonationPortal = ({ showPortal, onClose }) => {
+  const ushahidiAdd = "0xC877733b142f44AF7e2FA8d29A7065e56FF851fa";
+  const {
+    userAccount,
+    contract,
+    cUSDContract,
+    connectWallet,
+    kit,
+    notification,
+    inuasautiContract,
+  } = useContext(AppContext);
   const [ amount, setAmount] = useState(null);
 
   const handleChange = (event)=>{
     const value = event.target.value;
     setAmount(value);
   }
+  //setUshahidi address
+  const setUshahidiAddress = async () => {
+    try {
+      await contract.methods
+        .setUshahidiAddress(ushahidiAdd)
+        .send({ from: kit.defaultAccount });
+    } catch (error) {
+      notification(error);
+    }
+  };
+
+  //donate to ushahidi
+  const donateToUshahidi = async (amount) => {
+    //amount will be passed from the function
+    const balance = new BigNumber(amount).times(new BigNumber(10).pow(18));
+
+    const cusdContract = new kit.web3.eth.Contract(erc20, cUSDContract);
+
+    await cusdContract.methods
+      .approve(inuasautiContract, balance.toString())
+      .send({ from: kit.defaultAccount });
+
+    try {
+      await contract.methods
+        .contributeToUshadi(balance.toString())
+        .send({ from: kit.defaultAccount });
+      alert("done");
+    } catch (error) {
+      notification(error);
+    }
+  };
 
   const handleSubmit = (event)=>{
     event.preventDefault();
-    console.log(amount);
+    
+    //setUshahidiAddress();
+    donateToUshahidi(parseInt(amount));
   }
 
   if (!showPortal) return;
@@ -63,7 +110,7 @@ const DonationPortal = ({ showPortal, onClose }) => {
             <form className="h-[200px] flex flex-col justify-around" onSubmit={handleSubmit}>
               <div className="m-2 flex flex-col gap-2">
                 <label htmlFor="amount" className="font-mono">Amount to be Donated</label>
-              <input type="text" name="amount" id="amount" className="border-2 border-slate-300 p-2 bg-transparent rounded-sm outline-none" onChange={handleChange} />
+              <input type="number" name="amount" id="amount" className="border-2 border-slate-300 p-2 bg-transparent rounded-sm outline-none" onChange={handleChange} />
               </div>
               <button  className="flex items-center bg-button text-white rounded-sm font-bold text-md py-2 px-4 w-fit" >Donate</button>
             </form>
