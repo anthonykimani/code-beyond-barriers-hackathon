@@ -68,7 +68,7 @@ const Navbar = ({ onShow }) => {
               <li className="text-text">Home</li>
             </NavLink>
             <NavLink to="/posts">
-              <li className="hover:text-textHeavy">Platform</li>
+              <li className="hover:text-textHeavy">Posts</li>
             </NavLink>
             <NavLink to="/about">
               <li className="hover:text-textHeavy">About</li>
@@ -114,7 +114,7 @@ const Navbar = ({ onShow }) => {
                   className="cursor-pointer hover:text-textLight"
                   onClick={expand}
                 >
-                  <a href={`#about`}>Platform</a>
+                  <a href={`#about`}>Posts</a>
                 </li>
                 <li
                   className="cursor-pointer hover:text-textLight"

@@ -1,11 +1,15 @@
+
 import { useContext, useEffect, useState,useCallback } from "react";
+
 import axios from "axios";
 import Post from "../components/Post";
-
 import { AppContext } from "../contexts/AppContext";
+
+
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
+
   const [info,setInfo] = useState([]);
   const {contract,kit,useAccount,notification,connectWallet} = useContext(AppContext);
   let message ="ronaldo in doha";
@@ -58,6 +62,7 @@ const Posts = () => {
   },[contract])
   
 
+
   useEffect(() => {
     const fetchPosts = async () => {
       const { data } = await axios.get(
@@ -69,10 +74,9 @@ const Posts = () => {
     getInformationToApprove();
     connectWallet();
   }, []);
-  
-console.log(info);
+
   return (
-    <main className="bg-section min-h-screen">
+    <main className="bg-section min-h-screen py-10">
       <section className="container mx-auto">
         <article>Dashboard <button onClick={()=>writePost()}>Post DAta</button></article>
 

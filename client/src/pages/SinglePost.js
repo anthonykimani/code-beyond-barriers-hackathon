@@ -45,7 +45,7 @@ const SinglePost = () => {
     };
     getPost();
   }, [id]);
-  console.log(post.values);
+
   return (
     <main className="min-h-screen bg-section">
       <section className="container mx-auto bg-white">
