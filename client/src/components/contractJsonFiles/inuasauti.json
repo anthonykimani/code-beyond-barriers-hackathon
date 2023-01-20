@@ -153,23 +153,15 @@
         "type": "uint256"
       }
     ],
-    "name": "determineTheSupportOfInformation",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_indexId",
-        "type": "uint256"
-      }
-    ],
     "name": "determineTheTruthOfInformation",
     "outputs": [
       {
         "components": [
+          {
+            "internalType": "string",
+            "name": "_imageUrl",
+            "type": "string"
+          },
           {
             "internalType": "string",
             "name": "_title",
@@ -194,11 +186,6 @@
             "internalType": "uint256",
             "name": "_messageId",
             "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "_category",
-            "type": "string"
           },
           {
             "internalType": "enum InuaSauti.Status",
@@ -227,6 +214,11 @@
         "components": [
           {
             "internalType": "string",
+            "name": "_imageUrl",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
             "name": "_title",
             "type": "string"
           },
@@ -249,11 +241,6 @@
             "internalType": "uint256",
             "name": "_messageId",
             "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "_category",
-            "type": "string"
           },
           {
             "internalType": "enum InuaSauti.Status",
@@ -320,6 +307,11 @@
         "components": [
           {
             "internalType": "string",
+            "name": "_imageUrl",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
             "name": "_title",
             "type": "string"
           },
@@ -344,11 +336,6 @@
             "type": "uint256"
           },
           {
-            "internalType": "string",
-            "name": "_category",
-            "type": "string"
-          },
-          {
             "internalType": "enum InuaSauti.Status",
             "name": "_status",
             "type": "uint8"
@@ -371,6 +358,11 @@
     "inputs": [
       {
         "internalType": "string",
+        "name": "imageurl",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
         "name": "title",
         "type": "string"
       },
@@ -387,11 +379,6 @@
       {
         "internalType": "string",
         "name": "message",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "category",
         "type": "string"
       }
     ],
@@ -515,6 +502,11 @@
     "outputs": [
       {
         "internalType": "string",
+        "name": "_imageUrl",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
         "name": "_title",
         "type": "string"
       },
@@ -537,11 +529,6 @@
         "internalType": "uint256",
         "name": "_messageId",
         "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "_category",
-        "type": "string"
       },
       {
         "internalType": "enum InuaSauti.Status",
@@ -645,6 +632,11 @@
         "internalType": "address",
         "name": "",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "name": "voted",
