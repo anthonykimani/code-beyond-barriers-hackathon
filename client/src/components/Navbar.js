@@ -7,7 +7,6 @@ import { AppContext } from "../contexts/AppContext";
 const BigNumber = require("bignumber.js");
 
 const Navbar = ({ onShow }) => {
-  
   //Todo
   const ushahidiAdd = "0xC877733b142f44AF7e2FA8d29A7065e56FF851fa";
   const [isExpanded, setIsExpanded] = useState(false);
@@ -30,7 +29,6 @@ const Navbar = ({ onShow }) => {
       alert("join error", error);
     }
   };
-  
 
   const expand = () => {
     setIsExpanded((isExpanded) => !isExpanded);
@@ -53,7 +51,7 @@ const Navbar = ({ onShow }) => {
               <li className="hover:text-textHeavy">Reports</li>
             </NavLink>
             <NavLink to="/about">
-              <li className="hover:text-textHeavy">About</li>
+              <li className="text-red-400">About</li>
             </NavLink>
           </ul>
         </article>
@@ -77,7 +75,10 @@ const Navbar = ({ onShow }) => {
           >
             Donate
           </button>
-          <button className="flex items-center bg-button text-white rounded-3xl font-bold text-md py-2 px-4 w-fit" onClick={() => joinCommunity()}>
+          <button
+            className="flex items-center bg-button text-white rounded-3xl font-bold text-md py-2 px-4 w-fit"
+            onClick={() => joinCommunity()}
+          >
             Join
           </button>
         </article>
