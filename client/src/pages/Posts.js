@@ -41,16 +41,20 @@ const Posts = () => {
         .getAllInformation()
         .call({ from: kit.defaultAccount });
 
-      infor?.forEach((element) => {
-        allinfo.push(element);
+        infor?.forEach((element) => {
+          allinfo.push(element);
       });
       setInfo(allinfo);
     } catch (error) {
       console.log(error);
     }
   }, [contract]);
-
-  useEffect(() => {
+  
+  // const loadPosts = ()=>{
+    
+    // }
+    
+    useEffect(() => {
     const fetchPosts = async () => {
       const { data } = await axios.get(
         "https://inuasauti.api.ushahidi.io/api/v3/posts"
@@ -58,25 +62,30 @@ const Posts = () => {
       setPosts(data);
     };
     fetchPosts();
-
+    // loadPosts();
     connectWallet();
     getInformationToApprove();
   }, []);
   
-  // console.log(posts.results[0].title);
-
-
-    let postedData = posts?.results?.[0];
-
-    useEffect(()=>{
-      setMessage(postedData.content);
-      setSource(postedData.source);
-      setTitle(postedData.title);
-      setPostDate(postedData.post_date);
-      setCategory(postedData.category);
+  const setPostData = async()=>{
+    await console.log(posts.results[0].content);
+    // await setMessage(posts.results[0].content);
+    await  setMessage(posts.results[0].content);
+    await  setSource(posts.results[0].source);
+    await  setTitle(posts.results[0].title);
+    await  setPostDate(posts.results[0].post_date);
+  }
+  
+  useEffect(()=>{
+    
+    console.log(posts?.results?.[0]);
+    setPostData();
+    console.log(posts.results[0].title);
+    console.log(posts.results[0].content);
+    console.log(posts.results[0].source);
+    console.log(posts.results[0].post_date);
     },[posts])
     
-    console.log(postedData);
     // writePost();
 
 
