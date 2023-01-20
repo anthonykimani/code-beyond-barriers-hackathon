@@ -152,7 +152,7 @@ const SinglePost = () => {
                 {/* to change the id and pass dynamic */}
 
                 <button
-                  onClick={() => approveorDeclineInformation(true, 0)}
+                  onClick={() => approveorDeclineInformation(true,singlePost._messageId )}
                   className="bg-button text-white font-medium px-5 py-2 w-fit"
                 >
                   Vote for
@@ -160,7 +160,7 @@ const SinglePost = () => {
               </div>
               <div>
                 <button
-                  onClick={() => approveorDeclineInformation(false, 0)}
+                  onClick={() => approveorDeclineInformation(false, singlePost._messageId)}
                   className=" bg-red-500 text-white font-medium px-3 py-2 w-fit"
                 >
                   Vote against
