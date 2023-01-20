@@ -11,18 +11,28 @@ const SinglePost = () => {
   const {userAccount, contract,cUSDContract , connectWallet,kit,notification,inuasautiContract} = useContext(AppContext);
   const { id } = useParams();
   const [post, setPost] = useState({});
-  //Todo
- 
-  const approveorDeclineInformation = async (decision,id)=>{
+  const confirmInformation = async()=>{
     const balance =   new BigNumber(2).times(new BigNumber(10).pow(18));
     const cusdContract = new  kit.web3.eth.Contract(erc20,cUSDContract);
    
     await cusdContract.methods.approve(inuasautiContract,balance.toString()).send({from : kit.defaultAccount});
+    try{
+      await contract.methods.determineTheTruthOfInformation(0).send({from : kit.defaultAccount});
+    }catch(error){
+      alert("approve infor",error);
+    }
+
+  }
+  //Todo
+ 
+  const approveorDeclineInformation = async (decision,id)=>{
+    
 
     try{
       await contract.methods.voteForInformationShared(decision,id).send({from:kit.defaultAccount});
     }catch(error){
-      notification(error);
+      
+      console.log(error);
     }
   }
 
@@ -111,7 +121,7 @@ const SinglePost = () => {
             <div className="w-full md:w-5/12 p-5 flex  justify-between">
               <div>
                 {/* to change the id and pass dynamic */}
-                <button onClick={()=>approveorDeclineInformation(true,0)} className="bg-button text-white font-medium px-5 py-2 w-fit">
+                <button onClick={()=>approveorDeclineInformation(true,1)} className="bg-button text-white font-medium px-5 py-2 w-fit">
                   Vote for
                 </button>
               </div>
@@ -127,6 +137,7 @@ const SinglePost = () => {
                   Leave comment(Optional)
                 </h3>
                 <textarea
+                
                   className="bg-white outline-none p-2"
                   type="text"
                   rows={4}
@@ -135,6 +146,7 @@ const SinglePost = () => {
                   <button className="bg-button text-white font-medium px-3 py-2 w-fit">
                     Comment
                   </button>
+                  <button onClick={()=>confirmInformation()}>confirm</button>
                 </div>
               </form>
             </div>

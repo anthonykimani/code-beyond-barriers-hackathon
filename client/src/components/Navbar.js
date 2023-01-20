@@ -13,7 +13,14 @@ const Navbar = ({ onShow }) => {
   const ushahidiAdd = "0xC877733b142f44AF7e2FA8d29A7065e56FF851fa";
   const [isExpanded, setIsExpanded] = useState(false);
   const {userAccount, contract,cUSDContract , connectWallet,kit,notification,inuasautiContract} = useContext(AppContext);
- 
+ //todo
+ const joinCommunity = async ()=>{
+  try{
+    await contract.methods.joinInuaSautiCommunity().send({from: kit.defaultAccount});
+  }catch(error){
+    alert("join error", error);
+  }
+ }
   //setUshahidi address
   const setUshahidiAddress = async ()=>{
     try{
@@ -79,7 +86,7 @@ const Navbar = ({ onShow }) => {
           >
             Donate
           </button>
-          <button className="bg-blue-400" onClick={()=>donateToUshahidi()}>set</button>
+          <button className="bg-blue-400" onClick={()=>joinCommunity()}>join</button>
         </article>
         <article className="md:hidden">
           <div
