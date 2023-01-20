@@ -79,7 +79,7 @@ const Navbar = ({ onShow }) => {
             className="flex items-center bg-button text-white rounded-3xl font-bold text-md py-2 px-4 w-fit"
             onClick={() => joinCommunity()}
           >
-            Join
+            Join Dao
           </button>
         </article>
         <article className="md:hidden">

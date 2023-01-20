@@ -11,16 +11,34 @@ const Posts = () => {
 
   const { contract, kit, useAccount, notification, connectWallet } =
     useContext(AppContext);
-  let imageUrl =
-    "https://ichef.bbci.co.uk/onesport/cps/800/cpsprodpb/516D/production/_128354802_on-mes-index.jpg";
-  let message = "ronaldo in doha";
-  let source = "twitter";
-  let title = "The goat Debate";
+  let imageUrl;
+  let message;
+  let source;
+  let title;
+  let postDate;
+  let status;
+  let category;
 
-  let postDate = "11/2/2023";
+  posts?.results?.forEach((post) => {
+    message = post.content;
+    source = post.source;
+    title = post.title;
+    postDate = post.created;
+    status = post.status;
+    category = post.type;
+  });
+
   //TODO
   const writePost = async () => {
-    const params = [imageUrl, title, source, postDate, message];
+    const params = [
+      imageUrl,
+      title,
+      source,
+      postDate,
+      message,
+      status,
+      category,
+    ];
     try {
       await contract.methods
         .getMessagefromUshahidiApi(...params)
@@ -33,6 +51,7 @@ const Posts = () => {
       notification("userAccount is", useAccount);
     }
   };
+
   //Todo get all information
   const getInformationToApprove = useCallback(async () => {
     try {
@@ -54,11 +73,12 @@ const Posts = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       const { data } = await axios.get(
-        "https://api-2022.uchaguzi.or.ke/api/v3/posts"
+        "https://inuasauti.api.ushahidi.io/api/v3/posts"
       );
       setPosts(data);
     };
     fetchPosts();
+
     connectWallet();
     getInformationToApprove();
   }, []);
@@ -77,14 +97,6 @@ const Posts = () => {
               encourages the community to contribute through various
               initiatives.
             </p>
-          </div>
-          <div className="w-4/12 flex items-center justify-center">
-            <button
-              className="flex  items-center bg-red-400 text-white rounded-3xl font-bold  py-2 px-4 w-fit"
-              onClick={() => writePost()}
-            >
-              Post Data
-            </button>
           </div>
         </article>
       </section>

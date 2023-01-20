@@ -1,11 +1,10 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import { createPortal } from "react-dom";
 import Celo from "../assets/images/celo.png";
 import erc20 from "../components/contractJsonFiles/ierc20.json";
 
 import { AppContext } from "../contexts/AppContext";
 const BigNumber = require("bignumber.js");
-
 
 const DonationPortal = ({ showPortal, onClose }) => {
   const ushahidiAdd = "0xC877733b142f44AF7e2FA8d29A7065e56FF851fa";
@@ -18,12 +17,12 @@ const DonationPortal = ({ showPortal, onClose }) => {
     notification,
     inuasautiContract,
   } = useContext(AppContext);
-  const [ amount, setAmount] = useState(null);
+  const [amount, setAmount] = useState(null);
 
-  const handleChange = (event)=>{
+  const handleChange = (event) => {
     const value = event.target.value;
     setAmount(value);
-  }
+  };
   //setUshahidi address
   const setUshahidiAddress = async () => {
     try {
@@ -34,6 +33,8 @@ const DonationPortal = ({ showPortal, onClose }) => {
       notification(error);
     }
   };
+
+  // setUshahidiAddress();
 
   //donate to ushahidi
   const donateToUshahidi = async (amount) => {
@@ -56,20 +57,18 @@ const DonationPortal = ({ showPortal, onClose }) => {
     }
   };
 
-  const handleSubmit = (event)=>{
+  const handleSubmit = (event) => {
     event.preventDefault();
-    
+
     //setUshahidiAddress();
     donateToUshahidi(parseInt(amount));
-  }
+  };
 
   if (!showPortal) return;
-  
-
 
   return createPortal(
     <main className="w-full overflow-scroll  md:h-screen md:w-screen fixed top-0 bg-neutral-900 left-0 bg-opacity-50 flex items-center justify-center z-40 ">
-      <section className="rounded-xl  bg-white w-[40%] p-5 h-[90%] ">
+      <section className="md:rounded-xl  bg-white w-full h-screen md:w-[40%] p-5 md:h-[90%] ">
         <article className="relative bg-white py-10 px-5">
           <span
             className="text-2xl absolute cursor-pointer top-0 right-0 lg:-top-4 lg:-right-3 z-50  xl:-right-2"
@@ -93,7 +92,7 @@ const DonationPortal = ({ showPortal, onClose }) => {
                 </div>
                 <div className="p-2">
                   <span className="font-semibold text-sm text-gray-500">
-                    fjvbjbu776fvjbjnkji989lvygg5guf7302gryd27z6
+                    {ushahidiAdd}
                   </span>
                 </div>
               </div>
@@ -107,12 +106,25 @@ const DonationPortal = ({ showPortal, onClose }) => {
             </div>
           </article>
           <article className="mt-10">
-            <form className="h-[200px] flex flex-col justify-around" onSubmit={handleSubmit}>
+            <form
+              className="h-[200px] flex flex-col justify-around"
+              onSubmit={handleSubmit}
+            >
               <div className="m-2 flex flex-col gap-2">
-                <label htmlFor="amount" className="font-mono">Amount to be Donated</label>
-              <input type="number" name="amount" id="amount" className="border-2 border-slate-300 p-2 bg-transparent rounded-sm outline-none" onChange={handleChange} />
+                <label htmlFor="amount" className="font-mono">
+                  Amount to be Donated
+                </label>
+                <input
+                  type="number"
+                  name="amount"
+                  id="amount"
+                  className="border-2 border-slate-300 p-2 bg-transparent rounded-sm outline-none"
+                  onChange={handleChange}
+                />
               </div>
-              <button  className="flex items-center bg-button text-white rounded-sm font-bold text-md py-2 px-4 w-fit" >Donate</button>
+              <button className="flex items-center bg-button text-white rounded-sm font-bold text-md py-2 px-4 w-fit">
+                Donate
+              </button>
             </form>
           </article>
         </article>
