@@ -303,11 +303,11 @@ contract InuaSauti {
     //incentive for the first person
     function incentiveForTheFirstPersonToConfirm(
         uint _indexId
-    ) external payable onlyUshahidiOwners {
+    ) external payable {
         if (votes[_indexId].approveVotes > votes[_indexId].declineVotes) {
             celoContractAdress.transferFrom(
                 msg.sender,
-                _storeAddressForApproved[_indexId][0].confirmAddress,
+                payable(_storeAddressForApproved[_indexId][0].confirmAddress),
                 fixedAmount
             );
         } else if (
@@ -315,7 +315,7 @@ contract InuaSauti {
         ) {
             celoContractAdress.transferFrom(
                 msg.sender,
-                _storeAddressForDecline[_indexId][0].declineAddress,
+                payable(_storeAddressForDecline[_indexId][0].declineAddress),
                 fixedAmount
             );
         }

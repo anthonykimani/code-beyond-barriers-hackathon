@@ -4,6 +4,8 @@ import moment from "moment/moment";
 import NoImage from "../assets/images/noImage.png";
 import { useContext } from "react";
 import { AppContext } from "../contexts/AppContext";
+import erc20 from "../components/contractJsonFiles/ierc20.json";
+const BigNumber = require("bignumber.js");
 
 const Post = ({ post }) => {
   const {
@@ -16,7 +18,27 @@ const Post = ({ post }) => {
     inuasautiContract,
   } = useContext(AppContext);
 
-  const Reward = async () => {};
+  const reward = async (id) => {
+    const getAmount = await contract.methods.getFixedAmount().call({from : kit.defaultAccount});
+   
+    const cusdContract = new kit.web3.eth.Contract(erc20, cUSDContract);
+
+    await cusdContract.methods
+      .approve(inuasautiContract,getAmount)
+      .send({ from: kit.defaultAccount });
+
+console.log("get amounts", getAmount);
+
+try{
+ 
+ await contract.methods.incentiveForTheFirstPersonToConfirm(id).send({from:kit.defaultAccount});
+
+
+}catch(error){
+  console.log("the erros for amount",error);
+}
+
+  };
 
   return (
     <main className="shadow-xl h-[25h] rounded-md bg-white">
@@ -42,8 +64,8 @@ const Post = ({ post }) => {
               View
             </span>
           </Link>
-          <span className="px-3 py-1 w-fit cursor-pointer bg-[#213139] rounded-md text-white font-medium">
-            Reward
+          <span    onClick={()=> reward(0)} className="px-3 py-1 w-fit cursor-pointer bg-[#213139] rounded-md text-white font-medium">
+            Reward 
           </span>
         </article>
       </section>
