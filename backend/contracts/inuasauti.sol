@@ -28,7 +28,10 @@ interface IERC20Token {
 contract InuaSauti {
     IERC20Token celoContractAdress;
     uint fixedAmount = 1 ether;
-
+    //address for the owner
+    address payable ushahidiOwner;
+    //array of address that can give out incentive
+    address[] public ushahidiOwners = [ushahidiOwner, ushahidi];
     address internal cUsdTokenAddress =
         0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
     using SafeMath for uint;
@@ -76,9 +79,11 @@ contract InuaSauti {
     mapping(uint => storeAddressForDecline[]) public _storeAddressForDecline;
     mapping(address => bytes32) public typeOfMemeber;
     mapping(address => bool) public inuaSautiMembers;
+    mapping(address => bool) public voted;
 
     constructor() {
         celoContractAdress = IERC20Token(cUsdTokenAddress);
+        ushahidiOwner = payable(msg.sender);
     }
 
     event messageTrue(string message, string category);
@@ -101,6 +106,17 @@ contract InuaSauti {
     function joinInuaSautiCommunity() public {
         inuaSautiMembers[msg.sender] = true;
         typeOfMemeber[msg.sender] = normalMember;
+    }
+
+    //modifier for approved address
+    modifier onlyUshahidiOwners() {
+        for (uint i = 0; i < ushahidiOwners.length; i++) {
+            if (msg.sender == ushahidiOwners[i]) {
+                _;
+                return;
+            }
+        }
+        revert("Sender is not an ushahidi owner.");
     }
 
     function getMessagefromUshahidiApi(
@@ -128,11 +144,12 @@ contract InuaSauti {
     function voteForInformationShared(
         bool decision,
         uint _indexId
-    ) public checkIfMember() {
+    ) public checkIfMember {
         require(
             block.timestamp <= storeMessages[_indexId]._deadline,
             "Deadline for voting on this proposal has already passed!"
         );
+        require(voted[msg.sender] == false, "you have already voted");
         verifyUser(); //check if user if verify
         if (decision == true) {
             votes[_indexId].approveVotes++;
@@ -145,6 +162,7 @@ contract InuaSauti {
                 storeAddressForDecline(msg.sender)
             );
         }
+        voted[msg.sender] = true;
     }
 
     //todo
@@ -280,6 +298,32 @@ contract InuaSauti {
 
     function getFixedAmount() public view returns (uint) {
         return fixedAmount;
+    }
+
+    //incentive for the first person
+    function incentiveForTheFirstPersonToConfirm(
+        uint _indexId
+    ) external payable onlyUshahidiOwners {
+        if (votes[_indexId].approveVotes > votes[_indexId].declineVotes) {
+            celoContractAdress.transferFrom(
+                msg.sender,
+                _storeAddressForApproved[_indexId][0].confirmAddress,
+                fixedAmount
+            );
+        } else if (
+            votes[_indexId].declineVotes > votes[_indexId].approveVotes
+        ) {
+            celoContractAdress.transferFrom(
+                msg.sender,
+                _storeAddressForDecline[_indexId][0].declineAddress,
+                fixedAmount
+            );
+        }
+    }
+
+    //add owners to give out incentive
+    function addOwner(address payable _ushahidiOwner) public {
+        ushahidiOwners.push(_ushahidiOwner);
     }
 
     receive() external payable {}
