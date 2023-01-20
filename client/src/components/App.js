@@ -53,7 +53,7 @@ const cUSDContract = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1";
   }
 
   return (
-    <AppContext.Provider value={{userAccount,kit, contract, connectWallet,notification}}>
+    <AppContext.Provider value={{userAccount,kit,cUSDContract ,inuasautiContract, contract, connectWallet,notification}}>
     <Router>
       <Navbar onShow={() => onShowPortal()} />
       <Routes>

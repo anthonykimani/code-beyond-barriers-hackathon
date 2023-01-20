@@ -7,12 +7,12 @@ import { AppContext } from "../contexts/AppContext";
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [info,setInfo] = useState([]);
-  const {contract,kit,useAccount,notification} = useContext(AppContext);
+  const {contract,kit,useAccount,notification,connectWallet} = useContext(AppContext);
   let message ="ronaldo in doha";
   let id= 1;
   let category = "sports";
   //TODO
-  const writePost = async(post)=>{
+  const writePost = async()=>{
     const params=[
       message,
       id,
@@ -36,13 +36,14 @@ const Posts = () => {
      
       let allinfo=[]
       
-        const propsals = await contract.methods.getAllInformation().call({from : kit.defaultAccount})
+        const infor = await contract.methods.getAllInformation().call({from : kit.defaultAccount})
        
-       propsals.forEach((element) => {
+       infor.forEach((element) => {
         allinfo.push(element)
         
        });
        setInfo(allinfo);
+       
 
      
      
@@ -50,7 +51,7 @@ const Posts = () => {
       console.log(error)
     }
   },[contract])
-  
+  console.log("ron")
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -61,9 +62,10 @@ const Posts = () => {
     };
     fetchPosts();
     getInformationToApprove();
+    connectWallet();
   }, []);
   
-console.log("infor is",info);
+console.log(info);
   return (
     <main className="bg-section min-h-screen">
       <section className="container mx-auto">
@@ -71,7 +73,10 @@ console.log("infor is",info);
 
         <article className="flex flex-col gap-5 p-2">
           
-          {posts?.results?.map((post) => (
+          {
+          
+          posts?.results?.map((post) => (
+            
             <Post key={post.id} post={post} />
             
 
