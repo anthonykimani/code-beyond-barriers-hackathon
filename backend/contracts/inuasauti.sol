@@ -128,7 +128,7 @@ contract InuaSauti {
     function voteForInformationShared(
         bool decision,
         uint _indexId
-    ) public checkIfMember {
+    ) public checkIfMember() {
         require(
             storeMessages[_indexId]._deadline <= block.timestamp,
             "Deadline for voting on this proposal has already passed!"
