@@ -17,11 +17,12 @@ const SinglePost = () => {
     notification,
     inuasautiContract,
   } = useContext(AppContext);
+
   const { id } = useParams();
   const [post, setPost] = useState({});
   const [singlePost, setsinglePost] = useState({});
-  const [votesapproved,setApprovedVotes] = useState(null);
-  const [votesdecline,setdeclineVotes] = useState(null);
+  const [votesapproved, setApprovedVotes] = useState(null);
+  const [votesdecline, setdeclineVotes] = useState(null);
 
   useEffect(() => {
     const fetchSinglePost = async () => {
@@ -36,28 +37,28 @@ const SinglePost = () => {
     };
     fetchSinglePost();
   }, [id]);
-  const declineVotes = async(ids) =>{
-    try{
-      const votesdecline = await contract.methods.getdeclineVotes(ids).call({from: kit.defaultAccount});
+
+  const declineVotes = async (ids) => {
+    try {
+      const votesdecline = await contract.methods
+        .getdeclineVotes(ids)
+        .call({ from: kit.defaultAccount });
       setdeclineVotes(votesdecline);
-  }
+    } catch (error) {
+      console.log("votes decline", error);
+    }
+  };
 
-    catch(error){
-console.log("votes decline",error)
-
-    }}
-    
-     const ApprovedVotes = async(ids) =>{
-    try{
-      const votesapproved = await contract.methods.getApprovedVotes(ids).call({from: kit.defaultAccount});
+  const ApprovedVotes = async (ids) => {
+    try {
+      const votesapproved = await contract.methods
+        .getApprovedVotes(ids)
+        .call({ from: kit.defaultAccount });
       setApprovedVotes(votesapproved);
-  }
-
-    catch(error){
-console.log("votes decline",error)
-
-    }}
-    
+    } catch (error) {
+      console.log("votes decline", error);
+    }
+  };
 
   const confirmInformation = async () => {
     const balance = new BigNumber(2).times(new BigNumber(10).pow(18));
@@ -74,7 +75,7 @@ console.log("votes decline",error)
       alert("approve infor", error);
     }
   };
-  console.log(singlePost);
+
   //Todo
 
   const approveorDeclineInformation = async (decision, id) => {
@@ -174,33 +175,44 @@ console.log("votes decline",error)
           <h1 className=" text-gray-500 mb-4 font-bold text-xl">Your vote</h1>
           <div className="flex flex-col md:flex-row bg-section ">
             <div className="w-full md:w-5/12 p-5 ">
-            <div className="flex  justify-between">
-            <div>
-                {/* to change the id and pass dynamic */}
-                 
+              <div className="flex  justify-between">
+                <div>
+                  {/* to change the id and pass dynamic */}
 
-                <button
-                  onClick={() => approveorDeclineInformation(true,singlePost._messageId )}
-                  className="bg-button text-white font-medium px-5 py-2 w-fit"
-                >
-                  Vote for
-                </button>
+                  <button
+                    onClick={() =>
+                      approveorDeclineInformation(true, singlePost._messageId)
+                    }
+                    className="bg-button text-white font-medium px-5 py-2 w-fit"
+                  >
+                    Vote for
+                  </button>
+                </div>
+                <div>
+                  <button
+                    onClick={() =>
+                      approveorDeclineInformation(false, singlePost._messageId)
+                    }
+                    className=" bg-red-500 text-white font-medium px-3 py-2 w-fit"
+                  >
+                    Vote against
+                  </button>
+                </div>
               </div>
-              <div>
-                <button
-                  onClick={() => approveorDeclineInformation(false, singlePost._messageId)}
-                  className=" bg-red-500 text-white font-medium px-3 py-2 w-fit"
-                >
-                  Vote against
-                </button>
+              <div className="flex mt-5 py-5 justify-between">
+                <div className="flex flex-col">
+                  <h3 className="font-semibold mb-2">Votes For:</h3>
+                  <span className="self-center px-10 py-2 bg-white font-medium">
+                    {votesapproved}
+                  </span>
+                </div>
+                <div className="flex flex-col">
+                  <h3 className="font-semibold mb-2">Votes Against:</h3>
+                  <span className="self-center px-10 py-2 bg-white font-medium">
+                    {votesdecline}
+                  </span>
+                </div>
               </div>
-</div>
-<div  >
-  {votesapproved}
-  {votesdecline}
- 
- </div>
-             
             </div>
             <div className="w-full md:w-7/12 p-5 ">
               <form className="flex flex-col">
