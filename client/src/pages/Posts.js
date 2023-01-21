@@ -3,6 +3,7 @@ import { useContext, useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import Post from "../components/Post";
 import { AppContext } from "../contexts/AppContext";
+import { Link } from "react-router-dom";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -57,6 +58,11 @@ const Posts = () => {
               encourages the community to contribute through various
               initiatives.
             </p>
+          </div>
+          <div className="w-full md:w-4/12 flex mt-5 ">
+           <Link to={"/compose"}>
+           <span className="flex items-center self-center bg-red-400 text-white rounded-3xl font-bold text-md py-2 px-4 w-fit">Add Report</span>
+           </Link>
           </div>
         </article>
       </section>
