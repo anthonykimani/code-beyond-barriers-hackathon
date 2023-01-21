@@ -19,25 +19,25 @@ const Post = ({ post }) => {
   } = useContext(AppContext);
 
   const reward = async (id) => {
-    const getAmount = await contract.methods.getFixedAmount().call({from : kit.defaultAccount});
-   
+    const getAmount = await contract.methods
+      .getFixedAmount()
+      .call({ from: kit.defaultAccount });
+
     const cusdContract = new kit.web3.eth.Contract(erc20, cUSDContract);
 
     await cusdContract.methods
-      .approve(inuasautiContract,getAmount)
+      .approve(inuasautiContract, getAmount)
       .send({ from: kit.defaultAccount });
 
-console.log("get amounts", getAmount);
+    console.log("get amounts", getAmount);
 
-try{
- 
- await contract.methods.incentiveForTheFirstPersonToConfirm(id).send({from:kit.defaultAccount});
-
-
-}catch(error){
-  console.log("the erros for amount",error);
-}
-
+    try {
+      await contract.methods
+        .incentiveForTheFirstPersonToConfirm(id)
+        .send({ from: kit.defaultAccount });
+    } catch (error) {
+      console.log("the erros for amount", error);
+    }
   };
 
   return (
@@ -64,16 +64,19 @@ try{
               View
             </span>
           </Link>
-          <span    onClick={()=> reward(0)} className="px-3 py-1 w-fit cursor-pointer bg-[#213139] rounded-md text-white font-medium">
-            Reward 
+          <span
+            onClick={() => reward(0)}
+            className="px-3 py-1 w-fit cursor-pointer bg-[#213139] rounded-md text-white font-medium"
+          >
+            Reward
           </span>
         </article>
       </section>
       <section className="flex flex-col md:flex-row p-2">
-        <article className="w-full md:w-4/12 flex  items-center justify-center">
+        <article className="w-full md:w-4/12 flex items-center justify-center">
           <img
-            className="w-full md:w-20 object-cover "
-            src={NoImage}
+            className="w-full md:w-3/4 object-cover "
+            src={post._imageUrl ? post._imageUrl : NoImage}
             alt="data"
           />
         </article>

@@ -11,46 +11,6 @@ const Posts = () => {
 
   const { contract, kit, useAccount, notification, connectWallet } =
     useContext(AppContext);
-  let imageUrl;
-  let message;
-  let source;
-  let title;
-  let postDate;
-  let status;
-  let category;
-
-  posts?.results?.forEach((post) => {
-    message = post.content;
-    source = post.source;
-    title = post.title;
-    postDate = post.created;
-    status = post.status;
-    category = post.type;
-  });
-
-  //TODO
-  const writePost = async () => {
-    const params = [
-      imageUrl,
-      title,
-      source,
-      postDate,
-      message,
-      status,
-      category,
-    ];
-    try {
-      await contract.methods
-        .getMessagefromUshahidiApi(...params)
-        .send({ from: kit.defaultAccount });
-      notification("was post successful");
-      alert(useAccount);
-    } catch (error) {
-      notification("the error is", error);
-      console.log("post error", error);
-      notification("userAccount is", useAccount);
-    }
-  };
 
   //Todo get all information
   const getInformationToApprove = useCallback(async () => {
