@@ -20,6 +20,8 @@ const SinglePost = () => {
   const { id } = useParams();
   const [post, setPost] = useState({});
   const [singlePost, setsinglePost] = useState({});
+  const [votesapproved,setApprovedVotes] = useState(null);
+  const [votesdecline,setdeclineVotes] = useState(null);
 
   useEffect(() => {
     const fetchSinglePost = async () => {
@@ -34,6 +36,28 @@ const SinglePost = () => {
     };
     fetchSinglePost();
   }, [id]);
+  const declineVotes = async(ids) =>{
+    try{
+      const votesdecline = await contract.methods.getdeclineVotes(ids).call({from: kit.defaultAccount});
+      setdeclineVotes(votesdecline);
+  }
+
+    catch(error){
+console.log("votes decline",error)
+
+    }}
+    
+     const ApprovedVotes = async(ids) =>{
+    try{
+      const votesapproved = await contract.methods.getApprovedVotes(ids).call({from: kit.defaultAccount});
+      setApprovedVotes(votesapproved);
+  }
+
+    catch(error){
+console.log("votes decline",error)
+
+    }}
+    
 
   const confirmInformation = async () => {
     const balance = new BigNumber(2).times(new BigNumber(10).pow(18));
@@ -71,6 +95,8 @@ const SinglePost = () => {
       setPost(data);
     };
     getPost();
+    declineVotes(id);
+    ApprovedVotes(id);
   }, [id]);
 
   return (
@@ -147,9 +173,11 @@ const SinglePost = () => {
         <article className="p-2 md:p-5 ">
           <h1 className=" text-gray-500 mb-4 font-bold text-xl">Your vote</h1>
           <div className="flex flex-col md:flex-row bg-section ">
-            <div className="w-full md:w-5/12 p-5 flex  justify-between">
-              <div>
+            <div className="w-full md:w-5/12 p-5 ">
+            <div className="flex  justify-between">
+            <div>
                 {/* to change the id and pass dynamic */}
+                 
 
                 <button
                   onClick={() => approveorDeclineInformation(true,singlePost._messageId )}
@@ -166,6 +194,13 @@ const SinglePost = () => {
                   Vote against
                 </button>
               </div>
+</div>
+<div  >
+  {votesapproved}
+  {votesdecline}
+ 
+ </div>
+             
             </div>
             <div className="w-full md:w-7/12 p-5 ">
               <form className="flex flex-col">
