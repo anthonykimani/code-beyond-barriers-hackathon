@@ -17,7 +17,7 @@ let kit;
 let contract;
 function App() {
   const cUSDContract = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1";
-  const inuasautiContract = "0xaFD2B038F64a895C392f22FC370aa850C42e46bC";
+  const inuasautiContract = "0x7fca5797f7fe0B9258fDCF498C4486Ad07FDb271";
   const [userAccount, setUserAccount] = useState(null);
   const [showPortal, setShowPortal] = useState(false);
 
